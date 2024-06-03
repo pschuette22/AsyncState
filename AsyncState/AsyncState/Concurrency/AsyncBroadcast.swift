@@ -18,8 +18,10 @@ public protocol AsyncBroadcast<Element> {
 public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
     private let lock = NSLock()
 
-    private var didFinish: Bool = false
+    public private(set) var didFinish: Bool = false
     private var continuations = [UUID: (AsyncStream<Element>.Continuation, Element?)]()
+    
+    public init() { }
 
     public func send(_ element: Element) {
         lock.lock()

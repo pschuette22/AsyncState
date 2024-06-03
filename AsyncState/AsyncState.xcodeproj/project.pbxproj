@@ -13,6 +13,7 @@
 		4970E8B62C0D5B1E006D3AB3 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8B52C0D5B1E006D3AB3 /* State.swift */; };
 		4970E8B82C0D5DA7006D3AB3 /* Stateful.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8B72C0D5DA7006D3AB3 /* Stateful.swift */; };
 		4970E8BB2C0D60A7006D3AB3 /* AsyncBroadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8BA2C0D60A7006D3AB3 /* AsyncBroadcast.swift */; };
+		4970E8BE2C0D6955006D3AB3 /* AsyncBroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8BD2C0D6955006D3AB3 /* AsyncBroadcastTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		4970E8B52C0D5B1E006D3AB3 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		4970E8B72C0D5DA7006D3AB3 /* Stateful.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stateful.swift; sourceTree = "<group>"; };
 		4970E8BA2C0D60A7006D3AB3 /* AsyncBroadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBroadcast.swift; sourceTree = "<group>"; };
+		4970E8BD2C0D6955006D3AB3 /* AsyncBroadcastTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncBroadcastTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		4970E8A82C0D5887006D3AB3 /* AsyncStateTests */ = {
 			isa = PBXGroup;
 			children = (
+				4970E8BC2C0D693B006D3AB3 /* Concurrency */,
 			);
 			path = AsyncStateTests;
 			sourceTree = "<group>";
@@ -103,6 +106,14 @@
 			isa = PBXGroup;
 			children = (
 				4970E8BA2C0D60A7006D3AB3 /* AsyncBroadcast.swift */,
+			);
+			path = Concurrency;
+			sourceTree = "<group>";
+		};
+		4970E8BC2C0D693B006D3AB3 /* Concurrency */ = {
+			isa = PBXGroup;
+			children = (
+				4970E8BD2C0D6955006D3AB3 /* AsyncBroadcastTests.swift */,
 			);
 			path = Concurrency;
 			sourceTree = "<group>";
@@ -172,6 +183,7 @@
 					};
 					4970E8A32C0D5887006D3AB3 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -227,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4970E8BE2C0D6955006D3AB3 /* AsyncBroadcastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +394,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -414,6 +428,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -436,6 +451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 384WS8QBWW;
@@ -444,6 +460,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.peteschuette.AsyncStateTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -453,6 +470,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 384WS8QBWW;
