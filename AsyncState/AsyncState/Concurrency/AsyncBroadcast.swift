@@ -20,8 +20,8 @@ public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
 
     public private(set) var didFinish: Bool = false
     private var continuations = [UUID: (AsyncStream<Element>.Continuation, Element?)]()
-    
-    public init() { }
+
+    public init() {}
 
     public func send(_ element: Element) {
         lock.lock()
