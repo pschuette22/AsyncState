@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4970E89F2C0D5887006D3AB3 /* AsyncState.docc in Sources */ = {isa = PBXBuildFile; fileRef = 4970E89E2C0D5887006D3AB3 /* AsyncState.docc */; };
 		4970E8A52C0D5887006D3AB3 /* AsyncState.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4970E89A2C0D5887006D3AB3 /* AsyncState.framework */; };
-		4970E8AA2C0D5887006D3AB3 /* AsyncStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8A92C0D5887006D3AB3 /* AsyncStateTests.swift */; };
 		4970E8AB2C0D5887006D3AB3 /* AsyncState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4970E89D2C0D5887006D3AB3 /* AsyncState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		4970E89D2C0D5887006D3AB3 /* AsyncState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncState.h; sourceTree = "<group>"; };
 		4970E89E2C0D5887006D3AB3 /* AsyncState.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = AsyncState.docc; sourceTree = "<group>"; };
 		4970E8A42C0D5887006D3AB3 /* AsyncStateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsyncStateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4970E8A92C0D5887006D3AB3 /* AsyncStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncStateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +78,6 @@
 		4970E8A82C0D5887006D3AB3 /* AsyncStateTests */ = {
 			isa = PBXGroup;
 			children = (
-				4970E8A92C0D5887006D3AB3 /* AsyncStateTests.swift */,
 			);
 			path = AsyncStateTests;
 			sourceTree = "<group>";
@@ -202,7 +199,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4970E8AA2C0D5887006D3AB3 /* AsyncStateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
