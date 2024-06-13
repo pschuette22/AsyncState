@@ -52,7 +52,7 @@ public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
             guard let id = self?.add(continuation: continuation, final: final) else {
                 continuation.finish()
                 return
-            }
+            } 
             continuation.onTermination = { [weak self] _ in
                 self?.remove(id: id)
             }
