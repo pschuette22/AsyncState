@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AnyState: Hashable, Sendable {}
+public protocol AnyState: Sendable, Hashable {}
 
 public extension AnyState {
     /// Update a state in place. All changes in the update handler will be delivered at once
@@ -16,6 +16,19 @@ public extension AnyState {
         var updated = self
         handler(&updated)
         self = updated
+    }
+
+    /// Apply a set of effects that mutate the state.
+    /// State changes of each effect will be applied in the order they are received
+    /// - Parameter effects: ``Array`` of ``StateMutatingEffect``s that change a state
+    mutating func apply(
+        _ effects: [some StateMutatingEffect<Self>]
+    ) {
+        update { state in
+            for effect in effects {
+                effect.apply(to: &state)
+            }
+        }
     }
 }
 
