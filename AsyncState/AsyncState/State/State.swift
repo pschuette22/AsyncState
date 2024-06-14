@@ -18,7 +18,18 @@ public extension AnyState {
         self = updated
     }
 
-    mutating func apply(_: [any StateMutating<Self>]) {}
+    /// Apply a set of effects that mutate the state.
+    /// State changes of each effect will be applied in the order they are received
+    /// - Parameter effects: ``Array`` of ``StateMutatingEffect``s that change a state
+    mutating func apply(
+        _ effects: [some StateMutatingEffect<Self>]
+    ) {
+        update { state in
+            for effect in effects {
+                effect.apply(to: &state)
+            }
+        }
+    }
 }
 
 /**
