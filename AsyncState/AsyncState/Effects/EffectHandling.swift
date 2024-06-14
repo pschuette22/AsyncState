@@ -38,7 +38,7 @@ extension EffectHandling where Self: EffectMapping {
     }
 
     /// Handle a batch of ``Effect``s if they can be mapped. ``Effect``s which are not mapped will be ignored.
-    /// - Parameter effects: <#effects description#>
+    /// - Parameter effects: ``Array`` of ``Effect``s which may or may not be mapped to a ``HandledEffect``
     func handleIfNeeded(_ effects: [any Effect]) {
         Task { [weak self] in
             guard let mappedEffects = await self?.map(all: effects) else { return }
