@@ -21,7 +21,15 @@ public protocol EffectHandling<HandledEffect>: AnyObject {
 }
 
 extension EffectHandling where Self: EffectMapping {
-    func handleIfNeeded(_ effect: any Effect) {
+    /// Handle some ``Effect`` if it can be mapped to a ``HandledEffect``
+    /// If the ``Effect`` is not mapped, it will be ignored.
+    /// - Parameter effect: Any ``Effect`` which may or may not be mapped
+    func handleIfNeeded<SomeEffect: Effect>(_ effect: SomeEffect) {
+        assert(
+            SomeEffect.self != HandledEffect.self,
+            "\(effect) does not need to be mapped, was this called in error?"
+        )
+
         Task { [weak self] in
             guard let mappedEffect = await self?.map(effect) else { return }
 
@@ -29,6 +37,8 @@ extension EffectHandling where Self: EffectMapping {
         }
     }
 
+    /// Handle a batch of ``Effect``s if they can be mapped. ``Effect``s which are not mapped will be ignored.
+    /// - Parameter effects: <#effects description#>
     func handleIfNeeded(_ effects: [any Effect]) {
         Task { [weak self] in
             guard let mappedEffects = await self?.map(all: effects) else { return }

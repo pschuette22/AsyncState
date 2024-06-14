@@ -18,6 +18,8 @@
 		4970E8C32C1B4D66006D3AB3 /* StateMutatingEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8C22C1B4D66006D3AB3 /* StateMutatingEffect.swift */; };
 		4970E8C52C1B4DC6006D3AB3 /* EffectHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8C42C1B4DC6006D3AB3 /* EffectHandling.swift */; };
 		4970E8C72C1B4EE1006D3AB3 /* EffectHandling+EffectMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8C62C1B4EE1006D3AB3 /* EffectHandling+EffectMapping.swift */; };
+		4970E8CC2C1CD3A4006D3AB3 /* StateStreaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8CB2C1CD3A4006D3AB3 /* StateStreaming.swift */; };
+		4970E8CE2C1CD3B8006D3AB3 /* StateRendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4970E8CD2C1CD3B8006D3AB3 /* StateRendering.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,8 @@
 		4970E8C22C1B4D66006D3AB3 /* StateMutatingEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMutatingEffect.swift; sourceTree = "<group>"; };
 		4970E8C42C1B4DC6006D3AB3 /* EffectHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectHandling.swift; sourceTree = "<group>"; };
 		4970E8C62C1B4EE1006D3AB3 /* EffectHandling+EffectMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EffectHandling+EffectMapping.swift"; sourceTree = "<group>"; };
+		4970E8CB2C1CD3A4006D3AB3 /* StateStreaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateStreaming.swift; sourceTree = "<group>"; };
+		4970E8CD2C1CD3B8006D3AB3 /* StateRendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateRendering.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 			children = (
 				4970E8B52C0D5B1E006D3AB3 /* State.swift */,
 				4970E8B72C0D5DA7006D3AB3 /* Stateful.swift */,
+				4970E8CB2C1CD3A4006D3AB3 /* StateStreaming.swift */,
+				4970E8CD2C1CD3B8006D3AB3 /* StateRendering.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -253,6 +259,8 @@
 				4970E8BB2C0D60A7006D3AB3 /* AsyncBroadcast.swift in Sources */,
 				4970E89F2C0D5887006D3AB3 /* AsyncState.docc in Sources */,
 				4970E8B82C0D5DA7006D3AB3 /* Stateful.swift in Sources */,
+				4970E8CC2C1CD3A4006D3AB3 /* StateStreaming.swift in Sources */,
+				4970E8CE2C1CD3B8006D3AB3 /* StateRendering.swift in Sources */,
 				4970E8C52C1B4DC6006D3AB3 /* EffectHandling.swift in Sources */,
 				4970E8B62C0D5B1E006D3AB3 /* State.swift in Sources */,
 				4970E8C72C1B4EE1006D3AB3 /* EffectHandling+EffectMapping.swift in Sources */,
