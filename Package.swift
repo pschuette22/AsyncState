@@ -11,16 +11,16 @@ let package = Package(
         .watchOS(.v6),
         .tvOS(.v13),
         .macCatalyst(.v13),
-        .visionOS(.v1),
+        .visionOS(.v1)
     ],
     products: [
         .library(
             name: "AsyncState",
             targets: ["AsyncState"]
-        ),
+        )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -28,6 +28,6 @@ let package = Package(
         .testTarget(
             name: "AsyncStateTests",
             dependencies: ["AsyncState"]
-        ),
+        )
     ]
 )
