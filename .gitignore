@@ -1,2 +1,7 @@
 # XCode
 **/xcuserdata/
+
+# SPM
+.build
+.swiftpm
+Package.resolved
