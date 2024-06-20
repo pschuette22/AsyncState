@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
     name: "async-state",
@@ -20,14 +21,35 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2")),
     ],
     targets: [
         .target(
-            name: "AsyncState"),
+            name: "AsyncState",
+            dependencies: [
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+            ],
+            path: "Sources"
+        ),
+        .macro(
+            name: "AsyncStateMacros",
+            dependencies: [
+                "AsyncState",
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            ],
+            path: "Macros"
+        ),
         .testTarget(
             name: "AsyncStateTests",
-            dependencies: ["AsyncState"]
+            dependencies: [
+                "AsyncState",
+                "AsyncStateMacros",
+                .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+            ],
+            path: "Tests"
         )
     ]
 )

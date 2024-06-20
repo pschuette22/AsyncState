@@ -7,6 +7,13 @@
 #if canImport(UIKit)
 import Foundation
 import UIKit
+import SwiftSyntaxMacros
+
+@attached(extension, conformances: ModeledViewController)
+public macro Modeled<State: AnyState, ViewModel: ViewModeling>(_: State.Type, _: ViewModel.Type) = #externalMacro(
+    module: "AsyncStateMacros",
+    type: "ModeledViewControllerMacro"
+)
 
 public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewController {
     associatedtype ViewModel: ViewModeling<State>
@@ -34,6 +41,9 @@ extension ModeledViewController {
             }
         }
     }
+
+    // TODO: migrate start observing to macro.
+    // TODO: implement stop observing
 }
 
 #endif
