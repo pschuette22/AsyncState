@@ -6,19 +6,12 @@
 //
 
 import Foundation
-import AsyncState
-import SwiftSyntaxMacros
 import SwiftCompilerPlugin
+import SwiftSyntaxMacros
 
 @main
 struct AsyncStateMacros: CompilerPlugin {
-#if canImport(UIKit)
-    fileprivate static let uikitMacros: [Macro.Type] = [
-        ModeledViewControllerMacro.self
+    var providingMacros: [Macro.Type] = [
+        ModeledViewControllerMacro.self,
     ]
-#else
-    fileprivate static let uikitMacros: [Macro.Type] = []
-#endif
-
-    var providingMacros: [Macro.Type] = uikitMacros + []
 }

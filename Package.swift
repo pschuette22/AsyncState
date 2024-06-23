@@ -9,47 +9,53 @@ let package = Package(
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13),
-        .watchOS(.v6),
         .tvOS(.v13),
+        .watchOS(.v6),
         .macCatalyst(.v13),
-        .visionOS(.v1)
     ],
     products: [
-        .library(
-            name: "AsyncState",
-            targets: ["AsyncState"]
-        )
+        .library(name: "AsyncState", targets: ["AsyncState"]),
+        .library(name: "AsyncStateMacros", targets: ["AsyncStateMacros"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2")),
     ],
     targets: [
-        .target(
-            name: "AsyncState",
-            dependencies: [
-                .product(name: "SwiftSyntax", package: "swift-syntax"),
-            ],
-            path: "Sources"
-        ),
         .macro(
             name: "AsyncStateMacros",
             dependencies: [
-                "AsyncState",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ],
             path: "Macros"
         ),
+        .target(
+            name: "AsyncState",
+            dependencies: [
+                "AsyncStateMacros",
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            ],
+            path: "Sources"
+        ),
         .testTarget(
             name: "AsyncStateTests",
+            dependencies: [
+                "AsyncState"
+            ],
+            path: "Tests/AsyncStateTests"
+        ),
+        .testTarget(
+            name: "AsyncStateMacrosTests",
             dependencies: [
                 "AsyncState",
                 "AsyncStateMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ],
-            path: "Tests"
+            path: "Tests/AsyncStateMacrosTests"
         )
     ]
 )
