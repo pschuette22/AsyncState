@@ -15,11 +15,12 @@ let package = Package(
     ],
     products: [
         .library(name: "AsyncState", targets: ["AsyncState"]),
-        .library(name: "AsyncStateMacros", targets: ["AsyncStateMacros"])
+//        .library(name: "AsyncStateMacros", targets: ["AsyncStateMacros"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2")),
+        .package(url: "https://github.com/pointfreeco/swift-macro-testing", .upToNextMajor(from: "0.4.1")),
     ],
     targets: [
         .macro(
@@ -37,7 +38,6 @@ let package = Package(
                 "AsyncStateMacros",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             ],
             path: "Sources"
         ),
@@ -54,6 +54,7 @@ let package = Package(
                 "AsyncState",
                 "AsyncStateMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+                .product(name: "MacroTesting", package: "swift-macro-testing"),
             ],
             path: "Tests/AsyncStateMacrosTests"
         )
