@@ -24,11 +24,19 @@ final class ModeledViewControllerMacroTests: XCTestCase {
             """
             final class SomeViewController: UIViewController {
                 private let someExistingInt: Int
+            
+                typealias State = SomeState
+            
+                typealias ViewModel = SomeViewModel
             }
             """,
             macros: ["Modeled": ModeledViewControllerMacro.self]
         )
     }
+    
+//    func testExpand_onValueType_throwsError throws {
+////        assert
+//    }
 }
 
 // MARK: - Sample classes

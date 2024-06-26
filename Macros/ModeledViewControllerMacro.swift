@@ -67,7 +67,9 @@ import SwiftSyntaxMacros
 /// ```
 public struct ModeledViewControllerMacro {
     enum ExpansionError: Swift.Error, Equatable {
-        
+        case classTypeRequired
+        case invalidArguments
+        case invalidExpression
     }
 }
 
@@ -118,8 +120,43 @@ extension ModeledViewControllerMacro: MemberMacro {
         conformingTo protocols: [TypeSyntax],
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
+        guard let classDeclaration = declaration.as(ClassDeclSyntax.self) else {
+            // This is only supported for class types
+            throw ExpansionError.classTypeRequired
+        }
         var result = [DeclSyntax]()
+
+//        if let inheritanceClause = declaration.inheritanceClause {
+//            inheritanceClause.inheritedTypes
+//        }
         
+        guard  case let .argumentList(expressionList) = node.arguments else {
+            throw ExpansionError.invalidArguments
+        }
+        
+        let expressions = expressionList.map { $0 as LabeledExprSyntax }
+        
+        guard expressions.count == 2 else {
+            throw ExpansionError.invalidArguments
+        }
+        
+        // Can I convert this to member type expressions?
+        guard 
+            let stateExpression = expressions[0].expression.as(MemberAccessExprSyntax.self),
+            let stateTypeName = stateExpression.base?.description,
+            let viewModelExpression = expressions[1].expression.as(MemberAccessExprSyntax.self),
+            let viewModelTypeName = viewModelExpression.base?.description
+        else {
+            throw ExpansionError.invalidExpression
+        }
+        
+        result.append("typealias State = \(raw: stateTypeName)")
+        result.append("typealias ViewModel = \(raw: viewModelTypeName)")
+//
+//        let initializer = try InitializerDeclSyntax("required init(_ viewModel: ViewModel") {
+//            
+//        }
+                        
         return result
     }
 }
