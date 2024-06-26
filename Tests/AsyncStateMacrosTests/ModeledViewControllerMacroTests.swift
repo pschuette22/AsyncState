@@ -12,7 +12,7 @@ import AsyncState
 import AsyncStateMacros
 
 final class ModeledViewControllerMacroTests: XCTestCase {
-    func testExpand() throws {
+    func testExpand_internalViewController() throws {
         assertMacroExpansion(
             """
             @Modeled(SomeState.self, SomeViewModel.self)
@@ -24,10 +24,61 @@ final class ModeledViewControllerMacroTests: XCTestCase {
             """
             final class SomeViewController: UIViewController {
                 private let someExistingInt: Int
-            
+
                 typealias State = SomeState
-            
+
                 typealias ViewModel = SomeViewModel
+
+                private var stateObservingTask: Task?
+
+                let viewModel: ViewModel
+
+                required init(viewModel: ViewModel) {
+                    self.viewModel = viewModel
+
+                    super.init(nibName: nil, bundle: nil)
+                }
+
+                @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
+                required init?(coder: NSCoder) {
+                    fatalError("init(coder:) has not been implemented")
+                }
+            }
+            
+            extension SomeViewController: ModeledViewController<SomeState, SomeViewModel> {
+                /// Start an asynchronous Task which receives state changes and renders them
+                @MainActor
+                private func startObservingState(renderFirst: Bool) {
+                    guard stateObservingTask?.isCancelled != false else {
+                        // already observing
+                        return
+                    }
+            
+                    let stateStream = viewModel.stateStream.observe()
+                    stateObservingTask = Task { [weak self] in
+                        if renderImmediately {
+                            await self?.renderCurrentState()
+                        }
+            
+                        var stateIterator = stateStream.makeAsyncIterator()
+                        while let newState = await stateIterator.next() {
+                            await self?.render(newState)
+                        }
+                    }
+                }
+            
+                /// Retrieve the current state from the ViewModel and render
+                func renderCurrentState() async {
+                    let currentState = await viewModel.currentState()
+                    await render(currentState)
+                }
+            
+                /// Stop observing state changes
+                @MainActor
+                private func stopObservingState() {
+                    stateObservingTask?.cancel()
+                    stateObservingTask = nil
+                }
             }
             """,
             macros: ["Modeled": ModeledViewControllerMacro.self]
