@@ -7,9 +7,9 @@
 
 import Foundation
 
-public protocol AnyState: Sendable, Hashable {}
+public protocol ObjectState: Sendable, Hashable {}
 
-public extension AnyState {
+public extension ObjectState {
     /// Update a state in place. All changes in the update handler will be delivered at once
     /// - Parameter handler: function block handling state changes. Executes synchonrously
     mutating func update(_ handler: (inout Self) -> Void) {
@@ -36,7 +36,7 @@ public extension AnyState {
  * Adds extension warnings when AnyState is used on an Object type
  * States should always be distinct value types
  */
-public extension AnyState where Self: AnyObject {
+public extension ObjectState where Self: AnyObject {
     // This isn't a great use of deprecated, but it lifts the warning
     @available(*, deprecated, message: "States should be value types! References break the update paradigm.")
     func update(_: (inout Self) -> Void) {
