@@ -29,7 +29,7 @@ final class ModeledViewControllerMacroTests: XCTestCase {
 
                 typealias ViewModel = SomeViewModel
 
-                private var stateObservingTask: Task?
+                private var stateObservingTask: Task<Void, Never>?
 
                 let viewModel: ViewModel
 
@@ -43,12 +43,10 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                 required init?(coder: NSCoder) {
                     fatalError("init(coder:) has not been implemented")
                 }
-            }
             
-            extension SomeViewController: ModeledViewController<SomeState, SomeViewModel> {
                 /// Start an asynchronous Task which receives state changes and renders them
                 @MainActor
-                private func startObservingState(renderFirst: Bool) {
+                private func startObservingState(renderImmediately: Bool = false) {
                     guard stateObservingTask?.isCancelled != false else {
                         // already observing
                         return
@@ -80,14 +78,13 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                     stateObservingTask = nil
                 }
             }
+            
+            extension SomeViewController: ModeledViewController {
+            }
             """,
             macros: ["Modeled": ModeledViewControllerMacro.self]
         )
     }
-    
-//    func testExpand_onValueType_throwsError throws {
-////        assert
-//    }
 }
 
 // MARK: - Sample classes
