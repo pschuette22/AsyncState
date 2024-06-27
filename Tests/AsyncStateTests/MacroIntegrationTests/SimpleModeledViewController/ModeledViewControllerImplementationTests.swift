@@ -7,7 +7,7 @@
 
 import Foundation
 import AsyncState
-//import AsyncStateMacros
+// import AsyncStateMacros
 import UIKit
 import XCTest
 
@@ -17,12 +17,12 @@ struct SimpleViewState: ObjectState {
 
 final class SimpleViewModel: ViewModeling {
     typealias State = SimpleViewState
-    
+
     private var state: State = .init()
     func currentState() async -> SimpleViewState {
         state
     }
-    
+
     var stateStream: any AsyncState.AsyncBroadcast<SimpleViewState> = OpenAsyncBroadcast<State>()
 }
 
@@ -34,7 +34,6 @@ final class SimpleViewController: UIViewController {
         didRender = true
     }
 }
-
 
 final class ModeledViewControllerImplementationTests: XCTestCase {
 

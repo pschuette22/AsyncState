@@ -43,7 +43,7 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                 required init?(coder: NSCoder) {
                     fatalError("init(coder:) has not been implemented")
                 }
-            
+
                 /// Start an asynchronous Task which receives state changes and renders them
                 @MainActor
                 private func startObservingState(renderImmediately: Bool = false) {
@@ -51,26 +51,26 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                         // already observing
                         return
                     }
-            
+
                     let stateStream = viewModel.stateStream.observe()
                     stateObservingTask = Task { [weak self] in
                         if renderImmediately {
                             await self?.renderCurrentState()
                         }
-            
+
                         var stateIterator = stateStream.makeAsyncIterator()
                         while let newState = await stateIterator.next() {
                             await self?.render(newState)
                         }
                     }
                 }
-            
+
                 /// Retrieve the current state from the ViewModel and render
                 func renderCurrentState() async {
                     let currentState = await viewModel.currentState()
                     await render(currentState)
                 }
-            
+
                 /// Stop observing state changes
                 @MainActor
                 private func stopObservingState() {
@@ -78,7 +78,7 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                     stateObservingTask = nil
                 }
             }
-            
+
             extension SomeViewController: ModeledViewController {
             }
             """,
@@ -94,12 +94,12 @@ private struct SomeState: ObjectState {
 
 private final class SomeViewModel: ViewModeling {
     typealias State = SomeState
-    
+
     // TODO: Mock async broadcast
     let stateStream: any AsyncBroadcast<SomeState> = OpenAsyncBroadcast<SomeState>()
-    
+
     private var state: SomeState = .init(someInt: 123)
-    
+
     func currentState() async -> SomeState {
         state
     }
