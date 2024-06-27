@@ -16,7 +16,7 @@ import SwiftSyntaxMacros
 /// @Modeled(VCState.self, VCModel.self)
 /// final class SomeViewController: UIViewController { ...
 /// ```
-/// into
+/// intoa
 /// ```swift
 /// final class SomeViewController: UIViewController {
 ///    typealias State = VCState
@@ -25,7 +25,7 @@ import SwiftSyntaxMacros
 ///
 ///    let viewModel: ViewModel
 ///  
-///    private var stateObservingTask: Task?
+///    private var stateObservingTask: Task<Void, Never>?
 ///
 ///    required init(viewModel: ViewModel) {
 ///      self.viewModel = viewModel
@@ -140,41 +140,7 @@ extension ModeledViewControllerMacro: ExtensionMacro {
         // TODO: account for protection level (public / package / etc.)
         let modeledViewControllerExtension = try ExtensionDeclSyntax(
         """
-        extension \(type.trimmed): ModeledViewController<\(raw: stateTypeName), \(raw: viewModelTypeName)> {
-            /// Start an asynchronous Task which receives state changes and renders them
-            @MainActor
-            private func startObservingState(renderFirst: Bool) {
-                guard stateObservingTask?.isCancelled != false else {
-                    // already observing
-                    return
-                }
-        
-                let stateStream = viewModel.stateStream.observe()
-                stateObservingTask = Task { [weak self] in
-                    if renderImmediately {
-                        await self?.renderCurrentState()
-                    }
-        
-                    var stateIterator = stateStream.makeAsyncIterator()
-                    while let newState = await stateIterator.next() {
-                        await self?.render(newState)
-                    }
-                }
-            }
-        
-            /// Retrieve the current state from the ViewModel and render
-            func renderCurrentState() async {
-                let currentState = await viewModel.currentState()
-                await render(currentState)
-            }
-        
-            /// Stop observing state changes
-            @MainActor
-            private func stopObservingState() {
-                stateObservingTask?.cancel()
-                stateObservingTask = nil
-            }
-        }
+        extension \(type.trimmed): ModeledViewController { }
         """
         )
         result.append(modeledViewControllerExtension)
@@ -205,7 +171,7 @@ extension ModeledViewControllerMacro: MemberMacro {
         result.append("typealias State = \(raw: stateTypeName)")
         result.append("typealias ViewModel = \(raw: viewModelTypeName)")
         // TODO: account for public / package type
-        result.append("private var stateObservingTask: Task?")
+        result.append("private var stateObservingTask: Task<Void, Never>?")
         result.append("let viewModel: ViewModel")
         result.append(
         """
@@ -218,6 +184,40 @@ extension ModeledViewControllerMacro: MemberMacro {
         @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
+        }
+        
+        /// Start an asynchronous Task which receives state changes and renders them
+        @MainActor
+        private func startObservingState(renderImmediately: Bool = false) {
+            guard stateObservingTask?.isCancelled != false else {
+                // already observing
+                return
+            }
+        
+            let stateStream = viewModel.stateStream.observe()
+            stateObservingTask = Task { [weak self] in
+                if renderImmediately {
+                    await self?.renderCurrentState()
+                }
+        
+                var stateIterator = stateStream.makeAsyncIterator()
+                while let newState = await stateIterator.next() {
+                    await self?.render(newState)
+                }
+            }
+        }
+        
+        /// Retrieve the current state from the ViewModel and render
+        func renderCurrentState() async {
+            let currentState = await viewModel.currentState()
+            await render(currentState)
+        }
+        
+        /// Stop observing state changes
+        @MainActor
+        private func stopObservingState() {
+            stateObservingTask?.cancel()
+            stateObservingTask = nil
         }
         """
         )

@@ -10,7 +10,19 @@ import SwiftSyntaxMacros
     import UIKit
 #endif
 
-@attached(member, names: named(viewModel), named(stateStreamTask))
+@attached(
+    member,
+    names:
+        named(State),
+        named(ViewModel),
+        named(viewModel),
+        named(stateObservingTask),
+        named(init(viewModel:)),
+        named(init(coder:)),
+        named(startObservingState(renderImmediately:)),
+        named(renderCurrentState),
+        named(stopObservingState)
+)
 @attached(extension, conformances: ModeledViewController)
 public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type, _: ViewModel.Type) = #externalMacro(
     module: "AsyncStateMacros",
@@ -22,23 +34,6 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
         associatedtype ViewModel: ViewModeling<State>
         var viewModel: ViewModel { get }
     }
-
-//    extension ModeledViewController {
-//        /// Renders the current state and observes
-//        public func startObservingState(renderImmediately: Bool) {
-//            let stateStream = viewModel.stateStream.observe()
-//            Task { [weak self] in
-//                if renderImmediately {
-//                    await self?.renderCurrentState()
-//                }
-//
-//                var stateIterator = stateStream.makeAsyncIterator()
-//                while let newState = await stateIterator.next() {
-//                    await self?.render(newState)
-//                }
-//            }
-//        }
-//    }
 
     extension ModeledViewController {
         /// Retrieve the current state from the ViewModel and render
