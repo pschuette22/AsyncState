@@ -124,15 +124,6 @@ extension ModeledViewControllerMacro: ExtensionMacro {
         conformingTo _: [TypeSyntax],
         in _: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
-        let (stateExpression, viewModelExpression) = try extractTypeExpressions(from: node)
-
-        guard
-            let stateTypeName = stateExpression.base?.description,
-            let viewModelTypeName = viewModelExpression.base?.description
-        else {
-            throw ExpansionError.invalidExpression
-        }
-
         var result = [ExtensionDeclSyntax]()
         // TODO: validate this is a ViewController
         // TODO: account for protection level (public / package / etc.)
