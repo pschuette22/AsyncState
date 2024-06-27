@@ -1,12 +1,13 @@
 //
-//  File.swift
-//  
+//  ModeledViewControllerImplementationTests.swift
+//
 //
 //  Created by Peter Schuette on 6/26/24.
 //
 
-import Foundation
 import AsyncState
+import Foundation
+
 // import AsyncStateMacros
 import UIKit
 import XCTest
@@ -30,13 +31,12 @@ final class SimpleViewModel: ViewModeling {
 final class SimpleViewController: UIViewController {
     private(set) var didRender = false
     @MainActor
-    func render(_ state: SimpleViewState) {
+    func render(_: SimpleViewState) {
         didRender = true
     }
 }
 
 final class ModeledViewControllerImplementationTests: XCTestCase {
-
     @MainActor
     func testSimpleViewController_init() async throws {
         let viewModel = SimpleViewModel()

@@ -5,11 +5,11 @@
 //  Created by Peter Schuette on 6/23/24.
 //
 
-import Foundation
-import XCTest
-import SwiftSyntaxMacrosTestSupport
 import AsyncState
 import AsyncStateMacros
+import Foundation
+import SwiftSyntaxMacrosTestSupport
+import XCTest
 
 final class ModeledViewControllerMacroTests: XCTestCase {
     func testExpand_internalViewController() throws {
@@ -88,6 +88,7 @@ final class ModeledViewControllerMacroTests: XCTestCase {
 }
 
 // MARK: - Sample classes
+
 private struct SomeState: ObjectState {
     let someInt: Int
 }

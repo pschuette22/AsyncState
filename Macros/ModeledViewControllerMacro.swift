@@ -19,11 +19,11 @@ import SwiftSyntaxMacros
 /// ```swift
 /// final class SomeViewController: UIViewController {
 ///    typealias State = VCState
-///  
+///
 ///    typealias ViewModel = VCModel
 ///
 ///    let viewModel: ViewModel
-///  
+///
 ///    private var stateObservingTask: Task<Void, Never>?
 ///
 ///    required init(viewModel: ViewModel) {
@@ -69,7 +69,7 @@ import SwiftSyntaxMacros
 ///     }
 /// }
 /// ```
-public struct ModeledViewControllerMacro {
+public enum ModeledViewControllerMacro {
     enum ExpansionError: Swift.Error, Equatable {
         case classTypeRequired
         case invalidArguments
@@ -77,7 +77,7 @@ public struct ModeledViewControllerMacro {
     }
 
     private static func validate(_ declaration: DeclGroupSyntax) throws {
-        guard let _ /*classDeclaration*/ = declaration.as(ClassDeclSyntax.self) else {
+        guard let _ /* classDeclaration */ = declaration.as(ClassDeclSyntax.self) else {
             // This is only supported for class types
             throw ExpansionError.classTypeRequired
         }
@@ -90,7 +90,7 @@ public struct ModeledViewControllerMacro {
         stateExpression: MemberAccessExprSyntax,
         viewModelExpression: MemberAccessExprSyntax
     ) {
-        guard  case let .argumentList(expressionList) = node.arguments else {
+        guard case let .argumentList(expressionList) = node.arguments else {
             throw ExpansionError.invalidArguments
         }
 
@@ -118,13 +118,12 @@ public struct ModeledViewControllerMacro {
 
 extension ModeledViewControllerMacro: ExtensionMacro {
     public static func expansion(
-      of node: AttributeSyntax,
-      attachedTo declaration: some DeclGroupSyntax,
-      providingExtensionsOf type: some TypeSyntaxProtocol,
-      conformingTo protocols: [TypeSyntax],
-      in context: some MacroExpansionContext
+        of node: AttributeSyntax,
+        attachedTo _: some DeclGroupSyntax,
+        providingExtensionsOf type: some TypeSyntaxProtocol,
+        conformingTo _: [TypeSyntax],
+        in _: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
-
         let (stateExpression, viewModelExpression) = try extractTypeExpressions(from: node)
 
         guard
@@ -138,9 +137,9 @@ extension ModeledViewControllerMacro: ExtensionMacro {
         // TODO: validate this is a ViewController
         // TODO: account for protection level (public / package / etc.)
         let modeledViewControllerExtension = try ExtensionDeclSyntax(
-        """
-        extension \(type.trimmed): ModeledViewController { }
-        """
+            """
+            extension \(type.trimmed): ModeledViewController { }
+            """
         )
         result.append(modeledViewControllerExtension)
         return result
@@ -153,8 +152,8 @@ extension ModeledViewControllerMacro: MemberMacro {
     public static func expansion(
         of node: AttributeSyntax,
         providingMembersOf declaration: some DeclGroupSyntax,
-        conformingTo protocols: [TypeSyntax],
-        in context: some MacroExpansionContext
+        conformingTo _: [TypeSyntax],
+        in _: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
         try validate(declaration)
         let (stateExpression, viewModelExpression) = try extractTypeExpressions(from: node)
@@ -173,52 +172,52 @@ extension ModeledViewControllerMacro: MemberMacro {
         result.append("private var stateObservingTask: Task<Void, Never>?")
         result.append("let viewModel: ViewModel")
         result.append(
-        """
-        required init(viewModel: ViewModel) {
-            self.viewModel = viewModel
+            """
+            required init(viewModel: ViewModel) {
+                self.viewModel = viewModel
 
-            super.init(nibName: nil, bundle: nil)
-        }
-
-        @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
-        /// Start an asynchronous Task which receives state changes and renders them
-        @MainActor
-        private func startObservingState(renderImmediately: Bool = false) {
-            guard stateObservingTask?.isCancelled != false else {
-                // already observing
-                return
+                super.init(nibName: nil, bundle: nil)
             }
 
-            let stateStream = viewModel.stateStream.observe()
-            stateObservingTask = Task { [weak self] in
-                if renderImmediately {
-                    await self?.renderCurrentState()
+            @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
+            required init?(coder: NSCoder) {
+                fatalError("init(coder:) has not been implemented")
+            }
+
+            /// Start an asynchronous Task which receives state changes and renders them
+            @MainActor
+            private func startObservingState(renderImmediately: Bool = false) {
+                guard stateObservingTask?.isCancelled != false else {
+                    // already observing
+                    return
                 }
 
-                var stateIterator = stateStream.makeAsyncIterator()
-                while let newState = await stateIterator.next() {
-                    await self?.render(newState)
+                let stateStream = viewModel.stateStream.observe()
+                stateObservingTask = Task { [weak self] in
+                    if renderImmediately {
+                        await self?.renderCurrentState()
+                    }
+
+                    var stateIterator = stateStream.makeAsyncIterator()
+                    while let newState = await stateIterator.next() {
+                        await self?.render(newState)
+                    }
                 }
             }
-        }
 
-        /// Retrieve the current state from the ViewModel and render
-        func renderCurrentState() async {
-            let currentState = await viewModel.currentState()
-            await render(currentState)
-        }
+            /// Retrieve the current state from the ViewModel and render
+            func renderCurrentState() async {
+                let currentState = await viewModel.currentState()
+                await render(currentState)
+            }
 
-        /// Stop observing state changes
-        @MainActor
-        private func stopObservingState() {
-            stateObservingTask?.cancel()
-            stateObservingTask = nil
-        }
-        """
+            /// Stop observing state changes
+            @MainActor
+            private func stopObservingState() {
+                stateObservingTask?.cancel()
+                stateObservingTask = nil
+            }
+            """
         )
 
         // TODO: append required initializer with view model

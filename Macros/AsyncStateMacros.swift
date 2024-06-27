@@ -12,6 +12,6 @@ import SwiftSyntaxMacros
 @main
 struct AsyncStateMacros: CompilerPlugin {
     var providingMacros: [Macro.Type] = [
-        ModeledViewControllerMacro.self
+        ModeledViewControllerMacro.self,
     ]
 }

@@ -13,15 +13,15 @@ import SwiftSyntaxMacros
 @attached(
     member,
     names:
-        named(State),
-        named(ViewModel),
-        named(viewModel),
-        named(stateObservingTask),
-        named(init(viewModel:)),
-        named(init(coder:)),
-        named(startObservingState(renderImmediately:)),
-        named(renderCurrentState),
-        named(stopObservingState)
+    named(State),
+    named(ViewModel),
+    named(viewModel),
+    named(stateObservingTask),
+    named(init(viewModel:)),
+    named(init(coder:)),
+    named(startObservingState(renderImmediately:)),
+    named(renderCurrentState),
+    named(stopObservingState)
 )
 @attached(extension, conformances: ModeledViewController)
 public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type, _: ViewModel.Type) = #externalMacro(
