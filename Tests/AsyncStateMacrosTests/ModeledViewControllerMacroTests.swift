@@ -51,24 +51,18 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                         // already observing
                         return
                     }
+            
+                    if renderImmediately {
+                        renderCurrentState()
+                    }
 
                     let stateStream = viewModel.stateStream.observe()
                     stateObservingTask = Task { [weak self] in
-                        if renderImmediately {
-                            await self?.renderCurrentState()
-                        }
-
                         var stateIterator = stateStream.makeAsyncIterator()
                         while let newState = await stateIterator.next() {
                             await self?.render(newState)
                         }
                     }
-                }
-
-                /// Retrieve the current state from the ViewModel and render
-                func renderCurrentState() async {
-                    let currentState = await viewModel.currentState()
-                    await render(currentState)
                 }
 
                 /// Stop observing state changes
@@ -101,7 +95,8 @@ private final class SomeViewModel: ViewModeling {
 
     private var state: SomeState = .init(someInt: 123)
 
-    func currentState() async -> SomeState {
+    @MainActor
+    func currentState() -> SomeState {
         state
     }
 }
