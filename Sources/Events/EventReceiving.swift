@@ -13,10 +13,10 @@ extension EventReceiving {
     /// Receive ``Event``s from a streaming object and translate them into ``Effect``s
     /// - Parameters:
     ///   - eventStreamer: Object streaming ``Event``s
-    ///   - effectMapping: ``Effect`` these events have
-    func receive<ReceivedEvent>(
+    ///   - effectMapping: ``Effect`` these ``Event``s have
+    func receiveEvents<ReceivedEvent>(
         from eventStreamer: some EventStreaming<ReceivedEvent>,
-        _ effectMapping: @escaping (ReceivedEvent) -> [HandledEffect]
+        effectMapping: @escaping (ReceivedEvent) -> [HandledEffect]
     ) {
         Task { [weak self, weak eventStreamer] in
             guard var iterator = eventStreamer?.eventStream.observe().makeAsyncIterator() else { return }
@@ -30,10 +30,10 @@ extension EventReceiving {
 }
 
 extension EventReceiving where Self: EventStreaming {
-    func receive<ReceivedEvent>(
+    func receiveEvents<ReceivedEvent>(
         from eventStreamer: some EventStreaming<ReceivedEvent>,
         rebroadcasting eventMapping: @escaping (ReceivedEvent) -> StreamedEvent?,
-        _ effectMapping: @escaping (ReceivedEvent) -> [HandledEffect]
+        effectMapping: @escaping (ReceivedEvent) -> [HandledEffect]
     ) {
         Task { [weak self, weak eventStreamer] in
             guard var iterator = eventStreamer?.eventStream.observe().makeAsyncIterator() else { return }

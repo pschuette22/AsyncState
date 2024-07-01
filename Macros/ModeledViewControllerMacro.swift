@@ -100,12 +100,9 @@ public enum ModeledViewControllerMacro {
             throw ExpansionError.invalidArguments
         }
 
-        // Can I convert this to member type expressions?
         guard
             let stateExpression = expressions[0].expression.as(MemberAccessExprSyntax.self),
-//            let stateTypeName = stateExpression.base?.description,
             let viewModelExpression = expressions[1].expression.as(MemberAccessExprSyntax.self)
-//            let viewModelTypeName = viewModelExpression.base?.description
         else {
             throw ExpansionError.invalidExpression
         }
@@ -118,7 +115,7 @@ public enum ModeledViewControllerMacro {
 
 extension ModeledViewControllerMacro: ExtensionMacro {
     public static func expansion(
-        of node: AttributeSyntax,
+        of _: AttributeSyntax,
         attachedTo _: some DeclGroupSyntax,
         providingExtensionsOf type: some TypeSyntaxProtocol,
         conformingTo _: [TypeSyntax],
@@ -210,8 +207,6 @@ extension ModeledViewControllerMacro: MemberMacro {
             }
             """
         )
-
-        // TODO: append required initializer with view model
 
         return result
     }
