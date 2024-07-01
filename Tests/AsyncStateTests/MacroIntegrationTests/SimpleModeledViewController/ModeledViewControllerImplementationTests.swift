@@ -7,8 +7,6 @@
 
 import AsyncState
 import Foundation
-
-// import AsyncStateMacros
 import UIKit
 import XCTest
 
@@ -20,7 +18,9 @@ final class SimpleViewModel: ViewModeling {
     typealias State = SimpleViewState
 
     private var state: State = .init()
-    func currentState() async -> SimpleViewState {
+
+    @MainActor
+    func currentState() -> SimpleViewState {
         state
     }
 

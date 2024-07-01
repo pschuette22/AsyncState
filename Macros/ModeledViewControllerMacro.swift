@@ -100,12 +100,9 @@ public enum ModeledViewControllerMacro {
             throw ExpansionError.invalidArguments
         }
 
-        // Can I convert this to member type expressions?
         guard
             let stateExpression = expressions[0].expression.as(MemberAccessExprSyntax.self),
-//            let stateTypeName = stateExpression.base?.description,
             let viewModelExpression = expressions[1].expression.as(MemberAccessExprSyntax.self)
-//            let viewModelTypeName = viewModelExpression.base?.description
         else {
             throw ExpansionError.invalidExpression
         }
@@ -118,21 +115,12 @@ public enum ModeledViewControllerMacro {
 
 extension ModeledViewControllerMacro: ExtensionMacro {
     public static func expansion(
-        of node: AttributeSyntax,
+        of _: AttributeSyntax,
         attachedTo _: some DeclGroupSyntax,
         providingExtensionsOf type: some TypeSyntaxProtocol,
         conformingTo _: [TypeSyntax],
         in _: some MacroExpansionContext
     ) throws -> [ExtensionDeclSyntax] {
-        let (stateExpression, viewModelExpression) = try extractTypeExpressions(from: node)
-
-        guard
-            let stateTypeName = stateExpression.base?.description,
-            let viewModelTypeName = viewModelExpression.base?.description
-        else {
-            throw ExpansionError.invalidExpression
-        }
-
         var result = [ExtensionDeclSyntax]()
         // TODO: validate this is a ViewController
         // TODO: account for protection level (public / package / etc.)
@@ -192,23 +180,17 @@ extension ModeledViewControllerMacro: MemberMacro {
                     return
                 }
 
+                if renderImmediately {
+                    renderCurrentState()
+                }
+            
                 let stateStream = viewModel.stateStream.observe()
                 stateObservingTask = Task { [weak self] in
-                    if renderImmediately {
-                        await self?.renderCurrentState()
-                    }
-
                     var stateIterator = stateStream.makeAsyncIterator()
                     while let newState = await stateIterator.next() {
                         await self?.render(newState)
                     }
                 }
-            }
-
-            /// Retrieve the current state from the ViewModel and render
-            func renderCurrentState() async {
-                let currentState = await viewModel.currentState()
-                await render(currentState)
             }
 
             /// Stop observing state changes
@@ -219,8 +201,6 @@ extension ModeledViewControllerMacro: MemberMacro {
             }
             """
         )
-
-        // TODO: append required initializer with view model
 
         return result
     }

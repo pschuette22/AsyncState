@@ -20,7 +20,6 @@ import SwiftSyntaxMacros
     named(init(viewModel:)),
     named(init(coder:)),
     named(startObservingState(renderImmediately:)),
-    named(renderCurrentState),
     named(stopObservingState)
 )
 @attached(extension, conformances: ModeledViewController)
@@ -35,20 +34,24 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
         var viewModel: ViewModel { get }
     }
 
+    public extension ModeledViewController where State: CollectionViewState {
+        typealias Sections = State.Sections
+        typealias Items = State.Items
+    }
+
     extension ModeledViewController {
         /// Retrieve the current state from the ViewModel and render
-        public func renderCurrentState() async {
-            let currentState = await viewModel.currentState()
-            await render(currentState)
+        @MainActor
+        public func renderCurrentState() {
+            let currentState = viewModel.currentState()
+            render(currentState)
         }
     }
+
 #else
     @available(*, deprecated, message: "This is a test-only implementation. It is intended to be used with a UIViewController subclass")
     public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering {
         associatedtype ViewModel: ViewModeling<State>
         var viewModel: ViewModel { get }
-
-        func renderCurrentState() async
-        func startObservingState(renderImmediately: Bool)
     }
 #endif
