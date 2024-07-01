@@ -9,6 +9,7 @@
     import Foundation
     import UIKit
 
+    /// ``UICollectionReusableView`` that is configued with a given ``ViewConfiguration``
     public protocol ConfigurableSupplementaryView: UICollectionReusableView, Configurable {
         static var reuseIdentifier: String { get }
     }
@@ -35,8 +36,15 @@
     // MARK: - Dequeueing
 
     public extension UICollectionView {
+        
+        /// Dequeue a ``ConfigurableSupplementaryView`` with a given ``ViewConfiguration``
+        /// - Parameters:
+        ///   - configuration: Configuration describing the contents of this supplementary view
+        ///   - kind: Kind of supplementary view to locate
+        ///   - indexPath: Location of this supplementary view in the collection
+        /// - Returns: Configured supplementary view for the given kind
         func dequeueSupplementaryView<SupplementaryView: ConfigurableSupplementaryView>(
-            withConfiguration _: SupplementaryView.Configuration,
+            withConfiguration configuration: SupplementaryView.Configuration,
             ofKind kind: String,
             for indexPath: IndexPath,
             file: StaticString = #file,
@@ -53,6 +61,7 @@
                     line: line
                 )
             }
+            view.apply(configuration)
             return view
         }
     }

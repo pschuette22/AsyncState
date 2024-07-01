@@ -9,6 +9,7 @@
     import Foundation
     import UIKit
 
+    /// ``UICollectionViewCell`` that is configured with a ``ViewConfiguration``
     public protocol ConfigurableCell: UICollectionViewCell, Configurable {
         static var reuseIdentifier: String { get }
     }
@@ -29,6 +30,11 @@
     // MARK: - Dequeueing
 
     public extension UICollectionView {
+        /// Dequeue a ``ConfigurableCell`` with a given ``ConfigurableCell.Configuration``
+        /// - Parameters:
+        ///   - configuration: ``ViewConfiguration`` describing the contents of the cell
+        ///   - indexPath: ``IndexPath`` for this cell
+        /// - Returns: Instance of this ``ConfigurableCell``
         func dequeueCell<Cell: ConfigurableCell>(
             withConfiguration configuration: Cell.Configuration,
             for indexPath: IndexPath,
