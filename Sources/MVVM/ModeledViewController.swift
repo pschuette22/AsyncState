@@ -35,6 +35,11 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
         var viewModel: ViewModel { get }
     }
 
+    public extension ModeledViewController where State: CollectionViewState {
+        typealias Sections = State.Sections
+        typealias Items = State.Items
+    }
+
     extension ModeledViewController {
         /// Retrieve the current state from the ViewModel and render
         public func renderCurrentState() async {
@@ -42,6 +47,7 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
             await render(currentState)
         }
     }
+
 #else
     @available(*, deprecated, message: "This is a test-only implementation. It is intended to be used with a UIViewController subclass")
     public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering {

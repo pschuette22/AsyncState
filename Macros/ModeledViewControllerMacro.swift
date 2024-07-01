@@ -129,6 +129,7 @@ extension ModeledViewControllerMacro: ExtensionMacro {
             extension \(type.trimmed): ModeledViewController { }
             """
         )
+        // TODO: if state is a collection view type, extend as ModeledCollectionViewController
         result.append(modeledViewControllerExtension)
         return result
     }
