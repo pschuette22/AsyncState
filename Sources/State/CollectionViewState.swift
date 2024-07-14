@@ -9,7 +9,7 @@
     import Foundation
     import UIKit
 
-    public protocol CollectionViewState: ObjectState {
+    public protocol CollectionViewState: ViewState {
         associatedtype Sections: Hashable, Sendable
         associatedtype Items: Hashable, Sendable
 

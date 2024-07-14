@@ -4,7 +4,7 @@
 //
 //  Created by Peter Schuette on 6/26/24.
 //
-
+#if canImport(UIKit)
 import AsyncState
 import Foundation
 import UIKit
@@ -45,3 +45,4 @@ final class ModeledViewControllerImplementationTests: XCTestCase {
         XCTAssertTrue(viewController.didRender)
     }
 }
+#endif

@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol ObjectState: Sendable, Hashable {}
+public typealias ViewState = ObjectState
 
 public extension ObjectState {
     /// Update a state in place. All changes in the update handler will be delivered at once

@@ -26,10 +26,6 @@ import SwiftSyntaxMacros
 ///
 ///    private var stateObservingTask: Task<Void, Never>?
 ///
-///    required init(viewModel: ViewModel) {
-///      self.viewModel = viewModel
-///      self.init(nib: nil, bundle: nil)
-///    }
 /// }
 ///
 /// extension SomeViewController {
@@ -161,17 +157,6 @@ extension ModeledViewControllerMacro: MemberMacro {
         result.append("let viewModel: ViewModel")
         result.append(
             """
-            required init(viewModel: ViewModel) {
-                self.viewModel = viewModel
-
-                super.init(nibName: nil, bundle: nil)
-            }
-
-            @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
-            required init?(coder: NSCoder) {
-                fatalError("init(coder:) has not been implemented")
-            }
-
             /// Start an asynchronous Task which receives state changes and renders them
             @MainActor
             private func startObservingState(renderImmediately: Bool = false) {
