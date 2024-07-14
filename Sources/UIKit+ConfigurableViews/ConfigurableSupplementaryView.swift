@@ -36,7 +36,6 @@
     // MARK: - Dequeueing
 
     public extension UICollectionView {
-        
         /// Dequeue a ``ConfigurableSupplementaryView`` with a given ``ViewConfiguration``
         /// - Parameters:
         ///   - configuration: Configuration describing the contents of this supplementary view

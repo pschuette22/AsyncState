@@ -40,7 +40,7 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                         // already observing
                         return
                     }
-            
+
                     if renderImmediately {
                         renderCurrentState()
                     }
