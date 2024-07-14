@@ -13,12 +13,12 @@ final class ___FILEBASENAMEASIDENTIFIER___ViewModel: ViewModeling {
 
     // -- State Streaming --
     private var openStateStream = OpenAsyncBroadcast<State>()
-    var stateStream: any AsyncBroadcast<State> { 
+    var stateStream: any AsyncBroadcast<State> {
         openStateStream
     }
- 
+
     required init(_ initialState: State = .init()) {
-        self.state = initialState
+        state = initialState
     }
 }
 

@@ -1,6 +1,7 @@
+// TODO: Default header
 import AsyncState
-import UIKit
 import Foundation
+import UIKit
 
 @Modeled(___FILEBASENAMEASIDENTIFIER___State.self, ___FILEBASENAMEASIDENTIFIER___ViewModel.self)
 final class ___FILEBASENAMEASIDENTIFIER___ViewController: UIViewController, ModeledViewController {
@@ -11,7 +12,7 @@ final class ___FILEBASENAMEASIDENTIFIER___ViewController: UIViewController, Mode
     }
 
     @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -36,8 +37,7 @@ extension ___FILEBASENAMEASIDENTIFIER___ViewController {
     }
 
     @MainActor
-    func render(_ state: State) {
+    func render(_: State) {
         // TODO: Apply state to view
     }
-
 }
