@@ -1,9 +1,8 @@
-// ___FILEHEADER___
-
+// TODO: Default header comment
 import AsyncState
 import Foundation
 
-struct ___FILEBASENAME___: ViewState {
+struct SignUpState: ViewState {
     // TODO: State variables
     // var someVariable: Int
 }

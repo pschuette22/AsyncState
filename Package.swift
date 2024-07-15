@@ -1,8 +1,8 @@
 // swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
-import PackageDescription
 import CompilerPluginSupport
+import PackageDescription
 
 let package = Package(
     name: "async-state",
@@ -43,7 +43,7 @@ let package = Package(
         .testTarget(
             name: "AsyncStateTests",
             dependencies: [
-                "AsyncState"
+                "AsyncState",
             ],
             path: "Tests/AsyncStateTests"
         ),
@@ -55,6 +55,6 @@ let package = Package(
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
             ],
             path: "Tests/AsyncStateMacrosTests"
-        )
+        ),
     ]
 )

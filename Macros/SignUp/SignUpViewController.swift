@@ -1,11 +1,10 @@
-// ___FILEHEADER___
-
+// TODO: Default header
 import AsyncState
 import Foundation
 import UIKit
 
-@Modeled(___VARIABLE_productName:identifier___State.self, ___VARIABLE_productName:identifier___ViewModel.self)
-final class ___FILEBASENAME___: UIViewController, ModeledViewController {
+@Modeled(SignUpState.self, SignUpViewModel.self)
+final class SignUpViewController: UIViewController, ModeledViewController {
     required init(viewModel: ViewModel) {
         self.viewModel = viewModel
 
@@ -20,7 +19,7 @@ final class ___FILEBASENAME___: UIViewController, ModeledViewController {
 
 // MARK: - Lifecycle
 
-extension ___FILEBASENAME___ {
+extension SignUpViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,14 +30,14 @@ extension ___FILEBASENAME___ {
 
 // MARK: - Subviews
 
-extension ___FILEBASENAME___ {
+extension SignUpViewController {
     ///  Prepare subviews for state rendering
     private func setupSubviews() {
         // TODO: Add subviews
     }
 
     @MainActor
-    func render(_ state: State) {
+    func render(_: State) {
         // TODO: Apply state to view
     }
 }
