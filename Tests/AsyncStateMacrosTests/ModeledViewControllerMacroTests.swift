@@ -12,91 +12,80 @@ import SwiftSyntaxMacrosTestSupport
 import XCTest
 
 final class ModeledViewControllerMacroTests: XCTestCase {
-    func testExpand_internalViewController() throws {
-        assertMacroExpansion(
-            """
-            @Modeled(SomeState.self, SomeViewModel.self)
-            final class SomeViewController: UIViewController {
-                private let someExistingInt: Int
-            }
-            """,
-            expandedSource:
-            """
-            final class SomeViewController: UIViewController {
-                private let someExistingInt: Int
+  func testExpand_internalViewController() throws {
+    assertMacroExpansion(
+      """
+      @Modeled(SomeState.self, SomeViewModel.self)
+      final class SomeViewController: UIViewController {
+          private let someExistingInt: Int
+      }
+      """,
+      expandedSource:
+      """
+      final class SomeViewController: UIViewController {
+          private let someExistingInt: Int
 
-                typealias State = SomeState
+          typealias State = SomeState
 
-                typealias ViewModel = SomeViewModel
+          typealias ViewModel = SomeViewModel
 
-                private var stateObservingTask: Task<Void, Never>?
+          private var stateObservingTask: Task<Void, Never>?
 
-                let viewModel: ViewModel
+          let viewModel: ViewModel
 
-                required init(viewModel: ViewModel) {
-                    self.viewModel = viewModel
+          /// Start an asynchronous Task which receives state changes and renders them
+          @MainActor
+          private func startObservingState(renderImmediately: Bool = false) {
+              guard stateObservingTask?.isCancelled != false else {
+                  // already observing
+                  return
+              }
 
-                    super.init(nibName: nil, bundle: nil)
-                }
+              if renderImmediately {
+                  renderCurrentState()
+              }
 
-                @available(*, unavailable, message: "Storyboards are not supported. Use init(viewModel:)")
-                required init?(coder: NSCoder) {
-                    fatalError("init(coder:) has not been implemented")
-                }
+              let stateStream = viewModel.stateStream.observe()
+              stateObservingTask = Task { [weak self] in
+                  var stateIterator = stateStream.makeAsyncIterator()
+                  while let newState = await stateIterator.next() {
+                      await self?.render(newState)
+                  }
+              }
+          }
 
-                /// Start an asynchronous Task which receives state changes and renders them
-                @MainActor
-                private func startObservingState(renderImmediately: Bool = false) {
-                    guard stateObservingTask?.isCancelled != false else {
-                        // already observing
-                        return
-                    }
-            
-                    if renderImmediately {
-                        renderCurrentState()
-                    }
+          /// Stop observing state changes
+          @MainActor
+          private func stopObservingState() {
+              stateObservingTask?.cancel()
+              stateObservingTask = nil
+          }
+      }
 
-                    let stateStream = viewModel.stateStream.observe()
-                    stateObservingTask = Task { [weak self] in
-                        var stateIterator = stateStream.makeAsyncIterator()
-                        while let newState = await stateIterator.next() {
-                            await self?.render(newState)
-                        }
-                    }
-                }
-
-                /// Stop observing state changes
-                @MainActor
-                private func stopObservingState() {
-                    stateObservingTask?.cancel()
-                    stateObservingTask = nil
-                }
-            }
-
-            extension SomeViewController: ModeledViewController {
-            }
-            """,
-            macros: ["Modeled": ModeledViewControllerMacro.self]
-        )
-    }
+      extension SomeViewController: ModeledViewController {
+      }
+      """,
+      macros: ["Modeled": ModeledViewControllerMacro.self]
+    )
+  }
 }
 
 // MARK: - Sample classes
 
 private struct SomeState: ObjectState {
-    let someInt: Int
+  let someInt: Int
 }
 
 private final class SomeViewModel: ViewModeling {
-    typealias State = SomeState
+  typealias State = SomeState
 
-    // TODO: Mock async broadcast
-    let stateStream: any AsyncBroadcast<SomeState> = OpenAsyncBroadcast<SomeState>()
+  // TODO: Mock async broadcast
+  let stateStream: any AsyncBroadcast<SomeState> = OpenAsyncBroadcast<SomeState>()
 
-    private var state: SomeState = .init(someInt: 123)
+  private var state: SomeState = .init(someInt: 123)
 
-    @MainActor
-    func currentState() -> SomeState {
-        state
-    }
+  @MainActor
+  func currentState() -> SomeState {
+    state
+  }
 }

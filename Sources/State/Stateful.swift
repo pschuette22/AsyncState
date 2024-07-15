@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol Stateful<State> {
-    associatedtype State: ObjectState
+  associatedtype State: ObjectState
 }

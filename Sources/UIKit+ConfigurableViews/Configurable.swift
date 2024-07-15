@@ -6,15 +6,15 @@
 //
 
 #if canImport(UIKit)
-    import Foundation
-    import UIKit
+  import Foundation
+  import UIKit
 
-    public protocol ViewConfiguration: Sendable, Hashable {}
+  public protocol ViewConfiguration: Sendable, Hashable {}
 
-    public protocol Configurable: UIView {
-        associatedtype Configuration: ViewConfiguration
+  public protocol Configurable: UIView {
+    associatedtype Configuration: ViewConfiguration
 
-        func apply(_ configuration: Configuration)
-    }
+    func apply(_ configuration: Configuration)
+  }
 
 #endif

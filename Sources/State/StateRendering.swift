@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol StateRendering: Stateful {
-    @MainActor
-    func render(_ state: State)
+  @MainActor
+  func render(_ state: State)
 }
