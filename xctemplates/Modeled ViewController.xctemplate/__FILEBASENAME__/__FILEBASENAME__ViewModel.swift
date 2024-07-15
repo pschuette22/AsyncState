@@ -4,7 +4,7 @@ import Foundation
 
 final class ___FILEBASENAMEASIDENTIFIER___ViewModel: ViewModeling {
     // -- State Definition --
-    typealias State = ___FILEBASENAMEASIDENTIFIER___State
+    typealias State = ___VARIABLE_productName:identifier___State
     private(set) var state: State {
         didSet {
             openStateStream.send(state)
