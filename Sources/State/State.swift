@@ -11,26 +11,26 @@ public protocol ObjectState: Sendable, Hashable {}
 public typealias ViewState = ObjectState
 
 public extension ObjectState {
-    /// Update a state in place. All changes in the update handler will be delivered at once
-    /// - Parameter handler: function block handling state changes. Executes synchonrously
-    mutating func update(_ handler: (inout Self) -> Void) {
-        var updated = self
-        handler(&updated)
-        self = updated
-    }
+  /// Update a state in place. All changes in the update handler will be delivered at once
+  /// - Parameter handler: function block handling state changes. Executes synchonrously
+  mutating func update(_ handler: (inout Self) -> Void) {
+    var updated = self
+    handler(&updated)
+    self = updated
+  }
 
-    /// Apply a set of effects that mutate the state.
-    /// State changes of each effect will be applied in the order they are received
-    /// - Parameter effects: ``Array`` of ``StateMutatingEffect``s that change a state
-    mutating func apply(
-        _ effects: [some StateMutatingEffect<Self>]
-    ) {
-        update { state in
-            for effect in effects {
-                effect.apply(to: &state)
-            }
-        }
+  /// Apply a set of effects that mutate the state.
+  /// State changes of each effect will be applied in the order they are received
+  /// - Parameter effects: ``Array`` of ``StateMutatingEffect``s that change a state
+  mutating func apply(
+    _ effects: [some StateMutatingEffect<Self>]
+  ) {
+    update { state in
+      for effect in effects {
+        effect.apply(to: &state)
+      }
     }
+  }
 }
 
 /**
@@ -38,9 +38,9 @@ public extension ObjectState {
  * States should always be distinct value types
  */
 public extension ObjectState where Self: AnyObject {
-    // This isn't a great use of deprecated, but it lifts the warning
-    @available(*, deprecated, message: "States should be value types! References break the update paradigm.")
-    func update(_: (inout Self) -> Void) {
-        assertionFailure("States must be value types! References break the update paradigm.")
-    }
+  // This isn't a great use of deprecated, but it lifts the warning
+  @available(*, deprecated, message: "States should be value types! References break the update paradigm.")
+  func update(_: (inout Self) -> Void) {
+    assertionFailure("States must be value types! References break the update paradigm.")
+  }
 }

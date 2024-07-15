@@ -1,2 +1,5 @@
 # file options
---exclude xctemplates,.swiftpm,
+--exclude xctemplates,.swiftpm
+
+# rules
+--indent 2

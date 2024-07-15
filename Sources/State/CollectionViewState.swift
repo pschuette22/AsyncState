@@ -6,13 +6,13 @@
 //
 
 #if canImport(UIKit)
-    import Foundation
-    import UIKit
+  import Foundation
+  import UIKit
 
-    public protocol CollectionViewState: ViewState {
-        associatedtype Sections: Hashable, Sendable
-        associatedtype Items: Hashable, Sendable
+  public protocol CollectionViewState: ViewState {
+    associatedtype Sections: Hashable, Sendable
+    associatedtype Items: Hashable, Sendable
 
-        var snapshot: NSDiffableDataSourceSnapshot<Sections, Items> { get }
-    }
+    var snapshot: NSDiffableDataSourceSnapshot<Sections, Items> { get }
+  }
 #endif

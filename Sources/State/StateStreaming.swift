@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol StateStreaming: Stateful {
-    var stateStream: any AsyncBroadcast<State> { get }
+  var stateStream: any AsyncBroadcast<State> { get }
 }

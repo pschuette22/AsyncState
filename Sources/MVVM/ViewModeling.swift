@@ -8,15 +8,15 @@
 import Foundation
 
 public protocol ViewModeling<State>: Stateful, StateStreaming {
-    @MainActor
-    func currentState() -> State
+  @MainActor
+  func currentState() -> State
 }
 
 #if canImport(UIKit)
 
-    public extension ViewModeling where State: CollectionViewState {
-        typealias Sections = State.Sections
-        typealias Items = State.Items
-    }
+  public extension ViewModeling where State: CollectionViewState {
+    typealias Sections = State.Sections
+    typealias Items = State.Items
+  }
 
 #endif

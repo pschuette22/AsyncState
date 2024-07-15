@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol EventStreaming<StreamedEvent>: AnyObject {
-    associatedtype StreamedEvent: Event
+  associatedtype StreamedEvent: Event
 
-    var eventStream: any AsyncBroadcast<StreamedEvent> { get }
+  var eventStream: any AsyncBroadcast<StreamedEvent> { get }
 }
