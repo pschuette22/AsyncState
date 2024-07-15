@@ -2,7 +2,7 @@
 import AsyncState
 import Foundation
 
-struct ___FILEBASENAMEASIDENTIFIER___State: ViewState {
+struct ___FILEBASENAME___: ViewState {
     // TODO: State variables
     // var someVariable: Int
 }

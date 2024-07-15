@@ -2,7 +2,7 @@
 import AsyncState
 import Foundation
 
-final class ___FILEBASENAMEASIDENTIFIER___ViewModel: ViewModeling {
+final class ___FILEBASENAME___: ViewModeling {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
     private(set) var state: State {

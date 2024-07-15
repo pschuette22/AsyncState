@@ -3,8 +3,8 @@ import AsyncState
 import Foundation
 import UIKit
 
-@Modeled(___FILEBASENAMEASIDENTIFIER___State.self, ___FILEBASENAMEASIDENTIFIER___ViewModel.self)
-final class ___FILEBASENAMEASIDENTIFIER___ViewController: UIViewController, ModeledViewController {
+@Modeled(___VARIABLE_productName:identifier___State.self, ___VARIABLE_productName:identifier___ViewModel.self)
+final class ___FILEBASENAME___: UIViewController, ModeledViewController {
     required init(viewModel: ViewModel) {
         self.viewModel = viewModel
 
@@ -19,7 +19,7 @@ final class ___FILEBASENAMEASIDENTIFIER___ViewController: UIViewController, Mode
 
 // MARK: - Lifecycle
 
-extension ___FILEBASENAMEASIDENTIFIER___ViewController {
+extension ___FILEBASENAME___ {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,7 +30,7 @@ extension ___FILEBASENAMEASIDENTIFIER___ViewController {
 
 // MARK: - Subviews
 
-extension ___FILEBASENAMEASIDENTIFIER___ViewController {
+extension ___FILEBASENAME___ {
     ///  Prepare subviews for state rendering
     private func setupSubviews() {
         // TODO: Add subviews
