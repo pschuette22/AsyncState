@@ -38,5 +38,6 @@ An object which sends events conforms to `EventStreaming`.
 Effects are the result of events. When an object receives an event AsyncState provides helpers for mapping these events to effects. This paradigm encourages compile safety. Effects may be "pushed" to child objects. The pushed effects are first mapped to the receiving childs effect type. 
 
 #### State
+TODO: Talk about state paradigm
 
 ### Templates
