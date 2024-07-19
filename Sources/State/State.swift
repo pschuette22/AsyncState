@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol ObjectState: Sendable, Hashable {}
+// Views are Objects. This typealias createse readability for ModeledViewControllers
 public typealias ViewState = ObjectState
 
 public extension ObjectState {
