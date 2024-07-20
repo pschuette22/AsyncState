@@ -41,3 +41,4 @@ Effects are the result of events. When an object receives an event AsyncState pr
 TODO: Talk about state paradigm
 
 ### Templates
+Install templates using the install script. Navigate to the 
