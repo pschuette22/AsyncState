@@ -5,10 +5,10 @@ Manage Swift app state asynchronously.
 - [Installation](#installation)
 - [Usage](#usage)
 
-### Summary
+## Summary
 The async state framework simplifies swift object state management. It encourages single responsibility principles and state encapsulation. It was designed to be used in a stateful Model View ViewModel architecture, standard for iOS application development with UIKit.
 
-### Installation
+## Installation
 Async State is distributed via Swift Package Manager. Add the following to your `Package.swift` or via XCode SPM manager.
 
 ```swift
@@ -25,11 +25,11 @@ Async State is distributed via Swift Package Manager. Add the following to your 
   ),
 ```
 
-### Usage
+## Usage
 
 Async State comes with three major building blocks and helpers for each type. These building blocks are Events, Effects, and State.
 
-#### Events
+### Events
 Events are emitted from an object when something occurs. This could be a tap action, a system event, or anything that a programmer would like their feature to react to. These events are broadcast "vertically". Event broadcasters do not track the progress of an event nor do they care who receives them. They tell the world something happened and move on.
 
 An object which sends events conforms to `EventStreaming`.
@@ -46,7 +46,7 @@ final class ContactsRepository: EventStreaming {
 }
 ```
 
-#### Effects
+### Effects
 Effects are the result of events. When an object receives an event AsyncState provides helpers for mapping these events to effects. This paradigm encourages compile safety.
 
 ```swift
@@ -81,7 +81,7 @@ extension AddressBookViewModel: EffectHandling, EventReceiving {
 
 ```
 
-#### State
+### State
 The AsyncState uses a type called `ObjectState` or `ViewState` as the primary mechanism for describing an object's distinct state. This is useful for modeling and managing application logic.
 
 States should always be Value types. For example:
@@ -119,7 +119,7 @@ let observerTask = Task { [weak contactRepository] in
 }
 ```
 
-### Templates
+## Templates
 Install templates using the install script (likely `{project-path}/.build/checkouts/async-state/xctemplates/install-xctemplates.sh`)
 
 Run the script and templates will be installed locally. This may require an xcode restart.
