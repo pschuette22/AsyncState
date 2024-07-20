@@ -20,6 +20,15 @@ public protocol EffectHandling<HandledEffect>: AnyObject {
   func handle(all effects: [HandledEffect])
 }
 
+extension EffectHandling {
+  // Default implementation. Callers may implement this to handle batches of effects together
+  public func handle(all effects: [HandledEffect]) {
+    for effect in effects {
+      handle(effect)
+    }
+  }
+}
+
 extension EffectHandling where Self: EffectMapping {
   /// Handle some ``Effect`` if it can be mapped to a ``HandledEffect``
   /// If the ``Effect`` is not mapped, it will be ignored.
