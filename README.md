@@ -125,3 +125,5 @@ Install templates using the install script (likely `{project-path}/.build/checko
 Run the script and templates will be installed locally. This may require an xcode restart.
 
 Once installed, create a ModeledViewController using the latest template.
+
+![ModeledViewController](docs/resources/modeled-vc-xctemplate.gif)
