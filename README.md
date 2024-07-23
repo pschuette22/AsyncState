@@ -103,7 +103,7 @@ final class ContactRepository: StateStreaming
     var stateStream: any AsyncBroadcast<State> { _stateBroadcast }
 ```
 
-Objects interested in state changes to the contact repository may observe the change steam.
+Objects interested in state changes to the contact repository may observe the change stream directly without framework functions, as well.
 ```swift
 let contactRepository = ContactRepository()
 
