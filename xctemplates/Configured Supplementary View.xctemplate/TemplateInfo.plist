@@ -7,9 +7,9 @@
 	<key>Kind</key>
 	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
 	<key>Description</key>
-	<string>Scaffolding for a Configured Collection View Cell</string>
+	<string>Scaffolding for a Configured Supplementary View</string>
 	<key>Summary</key>
-	<string>Configured Collection View Cell</string>
+	<string>Configured Supplementary View</string>
 	<key>SortOrder</key>
 	<string>2</string>
 	<key>Image</key>
@@ -31,7 +31,7 @@
 			<key>Name</key>
 			<string>Module Name</string>
 			<key>Description</key>
-			<string>Name of Cell. ie ProfilePicture</string>
+			<string>Name of Supplementary View. ie Background</string>
 			<key>Type</key>
 			<string>text</string>
 			<key>Default</key>
