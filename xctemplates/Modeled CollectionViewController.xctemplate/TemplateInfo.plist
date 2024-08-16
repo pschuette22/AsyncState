@@ -7,9 +7,9 @@
 	<key>Kind</key>
 	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
 	<key>Description</key>
-	<string>The Scaffolding for an MVVM VIewController</string>
+	<string>The scaffolding for an MVVM Collection</string>
 	<key>Summary</key>
-	<string>Modeled View Controller</string>
+	<string>Modeled Collection View Controller</string>
 	<key>SortOrder</key>
 	<string>1</string>
 	<key>Image</key>
