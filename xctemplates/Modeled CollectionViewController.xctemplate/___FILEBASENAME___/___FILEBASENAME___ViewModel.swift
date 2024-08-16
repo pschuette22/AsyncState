@@ -5,6 +5,9 @@ import Foundation
 final class ___FILEBASENAME___: ViewModeling {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
+    typealias Sections = State.Sections
+    typealias Items = State.Items
+
     private(set) var state: State {
         didSet {
             openStateStream.send(state)

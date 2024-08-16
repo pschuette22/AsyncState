@@ -7,9 +7,9 @@
 	<key>Kind</key>
 	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
 	<key>Description</key>
-	<string>An empty Swift file.</string>
+	<string>The Scaffolding for an MVVM VIewController</string>
 	<key>Summary</key>
-	<string>An empty Swift file</string>
+	<string>Modeled View Controller</string>
 	<key>SortOrder</key>
 	<string>1</string>
 	<key>Image</key>
@@ -29,7 +29,7 @@
 			<key>Required</key>
 			<true/>
 			<key>Name</key>
-<string>Module Name</string>
+			<string>Module Name</string>
 			<key>Description</key>
 			<string>Name of feature. ie SignUp</string>
 			<key>Type</key>

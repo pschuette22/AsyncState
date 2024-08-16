@@ -40,3 +40,7 @@ extension ___FILEBASENAME___ {
         return snapshot
     }
 }
+
+extension ___FILEBASENAME___ {
+    // TODO: Define transactions
+}
