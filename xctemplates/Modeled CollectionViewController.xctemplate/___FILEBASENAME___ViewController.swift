@@ -5,8 +5,7 @@ import Foundation
 import UIKit
 
 @Modeled(___VARIABLE_productName:identifier___State.self, ___VARIABLE_productName:identifier___ViewModel.self)
-final class ___FILEBASENAME___: UIViewController, ModeledViewController {
-    
+final class ___FILEBASENAME___: UIViewController {
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
@@ -61,8 +60,7 @@ extension ___FILEBASENAME___ {
     @MainActor
     func render(_ state: State) {
         // TODO: Apply any new state changes
-        // layout.render(snapshot)
-        dataSource.apply(state.snapshot, animatingDifferences: true))
+        dataSource.apply(state.snapshot, animatingDifferences: true)
     }
 }
 
@@ -77,22 +75,15 @@ extension ___FILEBASENAME___ {
     @MainActor
     private func makeLayout() -> UICollectionViewLayout {
         // https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout
-        // TODO: Update this for your collection view
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout()
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let configuration = UICollectionViewCompositionalLayoutConfiguration()
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        
-        return UICollectionViewCompositionalLayout(section: section)
+        return UICollectionViewCompositionalLayout(
+            sectionProvider: { [weak self] sectionIndex, environment in
+                // TODO: return section configuration
+                return nil
+            }, 
+            configuration: configuration
+        )
     }
     
     private func makeDataSource(for collectionView: UICollectionView) -> DataSource<Sections, Items> {

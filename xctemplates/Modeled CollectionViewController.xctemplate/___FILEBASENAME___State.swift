@@ -16,12 +16,12 @@ struct ___FILEBASENAME___: CollectionViewState {
     }
     
     /// Ordered array of Sections for current state
-    private(set) var sections: [Section] = [
+    private(set) var sections: [Sections] = [
         .replaceMe
     ]
     
     /// Map of items per section
-    private(set) var sectionItems: [Section: [Items]] = [
+    private(set) var sectionItems: [Sections: [Items]] = [
         .replaceMe: [.replaceMe]
     ]
 }
@@ -29,12 +29,12 @@ struct ___FILEBASENAME___: CollectionViewState {
 extension ___FILEBASENAME___ {
     /// Compute the snapshot based on collection state
     var snapshot: NSDiffableDataSourceSnapshot<Sections, Items> {
-        // TODO: Fix this
-        let snapshot = sections.reduce(into: NSDiffableDataSourceSnapshot<Sections, Items>()) { snapshot, section
-            snapshot.add(section: section)
-            if let items = sectionItems[section] {
-                snapshot.append(items, to: section)
-            }
+        var snapshot = NSDiffableDataSourceSnapshot<Sections, Items>()
+        snapshot.appendSections(sections)
+        sectionItems.forEach { section, items in
+            guard let items = sectionItems[section] else { return }
+
+            snapshot.appendItems(items, toSection: section)
         }
         // Add additional customizations as needed
         return snapshot
