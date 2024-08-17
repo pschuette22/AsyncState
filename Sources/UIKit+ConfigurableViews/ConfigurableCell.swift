@@ -32,10 +32,12 @@
   public extension UICollectionView {
     /// Dequeue a ``ConfigurableCell`` with a given ``ConfigurableCell.Configuration``
     /// - Parameters:
+    ///   - cell: ``ConfigurableCell`` type to dequeue.
     ///   - configuration: ``ViewConfiguration`` describing the contents of the cell
     ///   - indexPath: ``IndexPath`` for this cell
     /// - Returns: Instance of this ``ConfigurableCell``
     func dequeueCell<Cell: ConfigurableCell>(
+      _: Cell.Type,
       withConfiguration configuration: Cell.Configuration,
       for indexPath: IndexPath,
       file: StaticString = #file,

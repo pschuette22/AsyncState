@@ -20,9 +20,9 @@ public protocol EffectHandling<HandledEffect>: AnyObject {
   func handle(all effects: [HandledEffect])
 }
 
-extension EffectHandling {
+public extension EffectHandling {
   // Default implementation. Callers may implement this to handle batches of effects together
-  public func handle(all effects: [HandledEffect]) {
+  func handle(all effects: [HandledEffect]) {
     for effect in effects {
       handle(effect)
     }
