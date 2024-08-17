@@ -38,11 +38,13 @@
   public extension UICollectionView {
     /// Dequeue a ``ConfigurableSupplementaryView`` with a given ``ViewConfiguration``
     /// - Parameters:
+    ///   - supplementaryView: ``ConfigurableSupplementaryView`` type to dequeue.
     ///   - configuration: Configuration describing the contents of this supplementary view
     ///   - kind: Kind of supplementary view to locate
     ///   - indexPath: Location of this supplementary view in the collection
-    /// - Returns: Configured supplementary view for the given kind
+    /// - Returns: ``ConfigurableSupplementaryView`` instance.
     func dequeueSupplementaryView<SupplementaryView: ConfigurableSupplementaryView>(
+      _: SupplementaryView.Type,
       withConfiguration configuration: SupplementaryView.Configuration,
       ofKind kind: String,
       for indexPath: IndexPath,
