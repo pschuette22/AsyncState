@@ -15,7 +15,7 @@ import SwiftSyntaxMacros
 /// @Modeled(VCState.self, VCModel.self)
 /// final class SomeViewController: UIViewController { ...
 /// ```
-/// intoa
+/// into
 /// ```swift
 /// final class SomeViewController: UIViewController {
 ///    typealias State = VCState
@@ -84,7 +84,8 @@ public enum ModeledViewControllerMacro {
     from node: AttributeSyntax
   ) throws -> (
     stateExpression: MemberAccessExprSyntax,
-    viewModelExpression: MemberAccessExprSyntax
+    viewModelExpression: MemberAccessExprSyntax,
+    isViewModelInterface: Bool
   ) {
     guard case let .argumentList(expressionList) = node.arguments else {
       throw ExpansionError.invalidArguments
@@ -103,7 +104,12 @@ public enum ModeledViewControllerMacro {
       throw ExpansionError.invalidExpression
     }
 
-    return (stateExpression: stateExpression, viewModelExpression: viewModelExpression)
+      let isViewModelInterface = expressions[1].label?.text == "interface"
+    return (
+        stateExpression: stateExpression,
+        viewModelExpression: viewModelExpression,
+        isViewModelInterface: isViewModelInterface
+    )
   }
 }
 
@@ -111,7 +117,7 @@ public enum ModeledViewControllerMacro {
 
 extension ModeledViewControllerMacro: ExtensionMacro {
   public static func expansion(
-    of _: AttributeSyntax,
+    of node: AttributeSyntax,
     attachedTo _: some DeclGroupSyntax,
     providingExtensionsOf type: some TypeSyntaxProtocol,
     conformingTo _: [TypeSyntax],
@@ -126,6 +132,7 @@ extension ModeledViewControllerMacro: ExtensionMacro {
       """
     )
     result.append(modeledViewControllerExtension)
+
     return result
   }
 }
@@ -140,7 +147,7 @@ extension ModeledViewControllerMacro: MemberMacro {
     in _: some MacroExpansionContext
   ) throws -> [DeclSyntax] {
     try validate(declaration)
-    let (stateExpression, viewModelExpression) = try extractTypeExpressions(from: node)
+    let (stateExpression, viewModelExpression, isViewModelInterface) = try extractTypeExpressions(from: node)
 
     guard
       let stateTypeName = stateExpression.base?.description,
@@ -151,10 +158,14 @@ extension ModeledViewControllerMacro: MemberMacro {
     var result = [DeclSyntax]()
 
     result.append("typealias State = \(raw: stateTypeName)")
-    result.append("typealias ViewModel = \(raw: viewModelTypeName)")
+    if !isViewModelInterface {
+      result.append("typealias ViewModel = \(raw: viewModelTypeName)")
+    }
+
     // TODO: account for public / package type
     result.append("private var stateObservingTask: Task<Void, Never>?")
     result.append("let viewModel: ViewModel")
+
     result.append(
       """
       /// Start an asynchronous Task which receives state changes and renders them

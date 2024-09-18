@@ -8,3 +8,8 @@
 .build
 .swiftpm
 Package.resolved
+
+# Tuit
+# This is necessary for local development
+Derived/
+async-state.xcodeproj/

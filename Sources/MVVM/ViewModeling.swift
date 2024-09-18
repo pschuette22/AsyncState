@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ViewModeling<State>: Stateful, StateStreaming {
+public protocol ViewModeling: Stateful, StateStreaming {
   @MainActor
   func currentState() -> State
 }
