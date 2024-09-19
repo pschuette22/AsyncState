@@ -4,7 +4,7 @@ import AsyncState
 import Foundation
 import UIKit
 
-@Modeled(___VARIABLE_productName:identifier___State.self, ___VARIABLE_productName:identifier___ViewModel.self)
+@Modeled(___VARIABLE_productName: identifier___State.self, ___VARIABLE_productName: identifier___ViewModel.self)
 final class ___FILEBASENAME___: UIViewController {
     required init(viewModel: ViewModel) {
         self.viewModel = viewModel

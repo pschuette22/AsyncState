@@ -10,16 +10,16 @@ struct ___FILEBASENAMEASIDENTIFIER___: CollectionViewState {
     enum Sections: Hashable, Sendable {
         case replaceMe
     }
-    
+
     enum Items: Hashable, Sendable {
         case replaceMe
     }
-    
+
     /// Ordered array of Sections for current state
     private(set) var sections: [Sections] = [
         .replaceMe
     ]
-    
+
     /// Map of items per section
     private(set) var sectionItems: [Sections: [Items]] = [
         .replaceMe: [.replaceMe]
