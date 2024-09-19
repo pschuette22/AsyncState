@@ -6,4 +6,4 @@
 //
 
 @freestanding(expression)
-macro installAsyncStateTemplates() -> String = #externalMacro(module: "AsyncStateTemplateInstaller", type: "TemplateInstallerPlugin")
+public macro installAsyncStateTemplates() -> String = #externalMacro(module: "AsyncStateTemplateInstaller", type: "TemplateInstallerPlugin")
