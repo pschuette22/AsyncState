@@ -45,7 +45,7 @@ import SwiftSyntaxMacros
 ///
 ///              var stateIterator = stateStream.makeAsyncIterator()
 ///              while let newState = await stateIterator.next() {
-///                  await self?.render(newState)
+///                  self?.render(newState)
 ///              }
 ///          }
 ///        }

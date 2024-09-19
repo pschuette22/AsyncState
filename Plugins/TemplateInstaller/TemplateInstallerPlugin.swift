@@ -3,7 +3,7 @@ import PackagePlugin
 
 @main
 public struct TemplateInstallerPlugin: BuildToolPlugin {
-  func createBuildCommands(context: PluginContext, target _: Target) throws -> [Command] {
+  public func createBuildCommands(context: PluginContext, target _: Target) throws -> [Command] {
     let scriptPath = context.package.directory.appending("scripts").appending("install-xctemplates.sh")
 
     return [
