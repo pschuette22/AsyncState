@@ -104,11 +104,11 @@ public enum ModeledViewControllerMacro {
       throw ExpansionError.invalidExpression
     }
 
-      let isViewModelInterface = expressions[1].label?.text == "interface"
+    let isViewModelInterface = expressions[1].label?.text == "interface"
     return (
-        stateExpression: stateExpression,
-        viewModelExpression: viewModelExpression,
-        isViewModelInterface: isViewModelInterface
+      stateExpression: stateExpression,
+      viewModelExpression: viewModelExpression,
+      isViewModelInterface: isViewModelInterface
     )
   }
 }
@@ -117,7 +117,7 @@ public enum ModeledViewControllerMacro {
 
 extension ModeledViewControllerMacro: ExtensionMacro {
   public static func expansion(
-    of node: AttributeSyntax,
+    of _: AttributeSyntax,
     attachedTo _: some DeclGroupSyntax,
     providingExtensionsOf type: some TypeSyntaxProtocol,
     conformingTo _: [TypeSyntax],

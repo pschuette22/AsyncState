@@ -43,7 +43,7 @@ public macro Modeled<State: ObjectState, ViewModel>(_: State.Type, interface: Vi
 )
 
 #if canImport(UIKit)
-public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewController where ViewModel: ViewModeling, ViewModel.State == State {
+  public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewController where ViewModel: ViewModeling, ViewModel.State == State {
     associatedtype ViewModel
     var viewModel: ViewModel { get }
   }
@@ -64,8 +64,8 @@ public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewC
 
 #else
   @available(*, deprecated, message: "This is a test-only implementation. It is intended to be used with a UIViewController subclass")
-public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering where ViewModel: ViewModeling, ViewModel.State == State {
-      associatedtype ViewModel
+  public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering where ViewModel: ViewModeling, ViewModel.State == State {
+    associatedtype ViewModel
     var viewModel: ViewModel { get }
   }
 #endif

@@ -24,7 +24,7 @@ public extension EffectHandling {
   // Default implementation. Callers may implement this to handle batches of effects together
   func handle(all effects: [HandledEffect]) {
     for effect in effects {
-        handle(effect)
+      handle(effect)
     }
   }
 }
@@ -42,7 +42,7 @@ extension EffectHandling where Self: EffectMapping {
     Task { [weak self] in
       guard let mappedEffect = await self?.map(effect) else { return }
 
-        self?.handle(mappedEffect)
+      self?.handle(mappedEffect)
     }
   }
 
@@ -52,7 +52,7 @@ extension EffectHandling where Self: EffectMapping {
     Task { [weak self] in
       guard let mappedEffects = await self?.map(all: effects) else { return }
 
-       self?.handle(all: mappedEffects)
+      self?.handle(all: mappedEffects)
     }
   }
 }

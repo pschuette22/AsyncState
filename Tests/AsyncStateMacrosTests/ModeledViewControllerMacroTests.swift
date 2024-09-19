@@ -69,60 +69,60 @@ final class ModeledViewControllerMacroTests: XCTestCase {
     )
   }
 
-    func testExpand_withInterfaceDrivenViewModel_internalViewController() throws {
-      assertMacroExpansion(
-        """
-        @Modeled(SomeState.self, interface: ViewModelProtocol.self)
-        final class SomeViewController<ViewModel: ViewModelProtocol>: UIViewController {
-            private let someExistingInt: Int
-        }
-        """,
-        expandedSource:
-        """
-        final class SomeViewController<ViewModel: ViewModelProtocol>: UIViewController {
-            private let someExistingInt: Int
+  func testExpand_withInterfaceDrivenViewModel_internalViewController() throws {
+    assertMacroExpansion(
+      """
+      @Modeled(SomeState.self, interface: ViewModelProtocol.self)
+      final class SomeViewController<ViewModel: ViewModelProtocol>: UIViewController {
+          private let someExistingInt: Int
+      }
+      """,
+      expandedSource:
+      """
+      final class SomeViewController<ViewModel: ViewModelProtocol>: UIViewController {
+          private let someExistingInt: Int
 
-            typealias State = SomeState
+          typealias State = SomeState
 
-            private var stateObservingTask: Task<Void, Never>?
+          private var stateObservingTask: Task<Void, Never>?
 
-            let viewModel: ViewModel
+          let viewModel: ViewModel
 
-            /// Start an asynchronous Task which receives state changes and renders them
-            @MainActor
-            private func startObservingState(renderImmediately: Bool = false) {
-                guard stateObservingTask?.isCancelled != false else {
-                    // already observing
-                    return
-                }
+          /// Start an asynchronous Task which receives state changes and renders them
+          @MainActor
+          private func startObservingState(renderImmediately: Bool = false) {
+              guard stateObservingTask?.isCancelled != false else {
+                  // already observing
+                  return
+              }
 
-                if renderImmediately {
-                    renderCurrentState()
-                }
+              if renderImmediately {
+                  renderCurrentState()
+              }
 
-                let stateStream = viewModel.stateStream.observe()
-                stateObservingTask = Task { [weak self] in
-                    var stateIterator = stateStream.makeAsyncIterator()
-                    while let newState = await stateIterator.next() {
-                        await self?.render(newState)
-                    }
-                }
-            }
+              let stateStream = viewModel.stateStream.observe()
+              stateObservingTask = Task { [weak self] in
+                  var stateIterator = stateStream.makeAsyncIterator()
+                  while let newState = await stateIterator.next() {
+                      await self?.render(newState)
+                  }
+              }
+          }
 
-            /// Stop observing state changes
-            @MainActor
-            private func stopObservingState() {
-                stateObservingTask?.cancel()
-                stateObservingTask = nil
-            }
-        }
+          /// Stop observing state changes
+          @MainActor
+          private func stopObservingState() {
+              stateObservingTask?.cancel()
+              stateObservingTask = nil
+          }
+      }
 
-        extension SomeViewController: ModeledViewController {
-        }
-        """,
-        macros: ["Modeled": ModeledViewControllerMacro.self]
-      )
-    }
+      extension SomeViewController: ModeledViewController {
+      }
+      """,
+      macros: ["Modeled": ModeledViewControllerMacro.self]
+    )
+  }
 }
 
 // MARK: - Sample classes
@@ -131,8 +131,7 @@ private struct SomeState: ObjectState {
   let someInt: Int
 }
 
-private protocol ViewModelProtocol: ViewModeling where State == SomeState {
-}
+private protocol ViewModelProtocol: ViewModeling where State == SomeState {}
 
 private final class SomeViewModel: ViewModelProtocol {
   // TODO: Mock async broadcast

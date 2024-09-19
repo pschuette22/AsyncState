@@ -23,7 +23,7 @@ public extension EventReceiving {
       while let event = await iterator.next(), let self {
         let effects = effectMapping(event)
         if effects.isEmpty { continue }
-        self.handle(all: effects)
+        handle(all: effects)
       }
     }
   }
@@ -41,12 +41,12 @@ public extension EventReceiving where Self: EventStreaming {
         //
         if let rebroadcasted = eventMapping(event) {
           // This is a little funky. Should we keep the send function open?
-          (self.eventStream as? OpenAsyncBroadcast<StreamedEvent>)?.send(rebroadcasted)
+          (eventStream as? OpenAsyncBroadcast<StreamedEvent>)?.send(rebroadcasted)
         }
 
         let effects = effectMapping(event)
         if !effects.isEmpty {
-          self.handle(all: effects)
+          handle(all: effects)
         }
       }
     }
