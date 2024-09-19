@@ -17,8 +17,6 @@ import SwiftSyntaxMacros
   named(ViewModel),
   named(viewModel),
   named(stateObservingTask),
-  named(init(viewModel:)),
-  named(init(coder:)),
   named(startObservingState(renderImmediately:)),
   named(stopObservingState)
 )
@@ -28,9 +26,25 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
   type: "ModeledViewControllerMacro"
 )
 
+@attached(
+  member,
+  names:
+  named(State),
+  named(ViewModel),
+  named(viewModel),
+  named(stateObservingTask),
+  named(startObservingState(renderImmediately:)),
+  named(stopObservingState)
+)
+@attached(extension, conformances: ModeledViewController)
+public macro Modeled<State: ObjectState, ViewModel>(_: State.Type, interface: ViewModel) = #externalMacro(
+  module: "AsyncStateMacros",
+  type: "ModeledViewControllerMacro"
+)
+
 #if canImport(UIKit)
-  public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewController {
-    associatedtype ViewModel: ViewModeling<State>
+  public protocol ModeledViewController<State, ViewModel>: StateRendering, UIViewController where ViewModel: ViewModeling, ViewModel.State == State {
+    associatedtype ViewModel
     var viewModel: ViewModel { get }
   }
 
@@ -50,8 +64,8 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
 
 #else
   @available(*, deprecated, message: "This is a test-only implementation. It is intended to be used with a UIViewController subclass")
-  public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering {
-    associatedtype ViewModel: ViewModeling<State>
+  public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering where ViewModel: ViewModeling, ViewModel.State == State {
+    associatedtype ViewModel
     var viewModel: ViewModel { get }
   }
 #endif

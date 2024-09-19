@@ -14,6 +14,7 @@ let package = Package(
     .macCatalyst(.v13),
   ],
   products: [
+    .plugin(name: "AsyncStateTemplateInstaller", targets: ["TemplateInstallerPlugin"]),
     .library(name: "AsyncState", targets: ["AsyncState"]),
   ],
   dependencies: [
@@ -30,6 +31,12 @@ let package = Package(
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
       ],
       path: "Macros"
+    ),
+    .plugin(
+      name: "TemplateInstallerPlugin",
+      capability: .buildTool(),
+      dependencies: [],
+      path: "Plugins/TemplateInstaller"
     ),
     .target(
       name: "AsyncState",

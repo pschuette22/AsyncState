@@ -8,3 +8,9 @@
 import Foundation
 
 public protocol Event: Sendable, Hashable, CustomStringConvertible {}
+
+public extension Event {
+  var description: String {
+    String(describing: self)
+  }
+}

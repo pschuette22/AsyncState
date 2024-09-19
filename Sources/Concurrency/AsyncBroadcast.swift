@@ -23,6 +23,10 @@ public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
 
   public init() {}
 
+  public func erased() -> any AsyncBroadcast<Element> {
+    self
+  }
+
   public func send(_ element: Element) {
     lock.lock()
     let continuations = continuations

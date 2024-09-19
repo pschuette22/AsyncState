@@ -3,7 +3,7 @@
 import AsyncState
 import Foundation
 
-final class ___FILEBASENAME___: ViewModeling {
+final class ___FILEBASENAMEASIDENTIFIER___: ViewModeling {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
     typealias Sections = State.Sections

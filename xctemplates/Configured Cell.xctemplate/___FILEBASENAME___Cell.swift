@@ -6,20 +6,15 @@ import UIKit
 
 final class ___FILEBASENAMEASIDENTIFIER___: UICollectionViewCell, ConfigurableCell {
     static let reuseIdentifier = "\(Bundle.main.bundleIdentifier ?? "").___FILEBASENAMEASIDENTIFIER___"
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
     }
 
-    @available(*, unavailable, message: "Storyboards are not supported. Use ``init(frame:)``")    
+    @available(*, unavailable, message: "Storyboards are not supported. Use ``init(frame:)``")
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        // reset the cell
     }
 }
 
@@ -27,7 +22,7 @@ final class ___FILEBASENAMEASIDENTIFIER___: UICollectionViewCell, ConfigurableCe
 extension ___FILEBASENAMEASIDENTIFIER___ {
     // TODO: Define transactions
     struct Configuration: ViewConfiguration {
-        
+
     }
 
     func setupSubviews() {

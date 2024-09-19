@@ -8,3 +8,9 @@
 import Foundation
 
 public protocol Effect: Sendable, Hashable, CustomStringConvertible {}
+
+public extension Effect {
+  var description: String {
+    String(describing: self)
+  }
+}

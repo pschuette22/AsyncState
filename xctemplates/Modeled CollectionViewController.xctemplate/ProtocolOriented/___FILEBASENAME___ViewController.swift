@@ -4,16 +4,16 @@ import AsyncState
 import Foundation
 import UIKit
 
-@Modeled(___VARIABLE_productName: identifier___State.self, ___VARIABLE_productName: identifier___ViewModel.self)
-final class ___FILEBASENAMEASIDENTIFIER___: UIViewController {
+@Modeled(___VARIABLE_productName:identifier___State.self, interface: ___VARIABLE_productName:identifier___ViewModelProtocol.self)
+final class ___FILEBASENAMEASIDENTIFIER___<ViewModel: ___VARIABLE_productName:identifier___ViewModelProtocol>: UIViewController, UICollectionViewDelegate {
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
     )
-
+    
     private lazy var collectionViewLayout: UICollectionViewLayout = makeLayout()
     private lazy var dataSource: DataSource = makeDataSource(for: collectionView)
-
+    
     required init(viewModel: ViewModel) {
         self.viewModel = viewModel
 
@@ -24,6 +24,9 @@ final class ___FILEBASENAMEASIDENTIFIER___: UIViewController {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - UICollectionViewDelegate
+    // TODO: fill in delegate methods
 }
 
 // MARK: - Lifecycle
@@ -50,9 +53,9 @@ extension ___FILEBASENAMEASIDENTIFIER___ {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
-
+        
         collectionView.dataSource = dataSource
         collectionView.delegate = self
     }
@@ -75,28 +78,22 @@ extension ___FILEBASENAMEASIDENTIFIER___ {
     private func makeLayout() -> UICollectionViewLayout {
         // https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
-
+        
         return UICollectionViewCompositionalLayout(
-            sectionProvider: { [weak self] _, _ in
+            sectionProvider: { [weak self] sectionIndex, environment in
                 // TODO: return section configuration
                 return nil
-            },
+            }, 
             configuration: configuration
         )
     }
-
+    
     private func makeDataSource(for collectionView: UICollectionView) -> DataSource<Sections, Items> {
         DataSource(
             collectionView: collectionView
-        ) { _, _, _ in
+        ) { collectionView, indexPath, itemIdentifier in
             // TODO: turn into configured cells
             nil
         }
     }
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension ___FILEBASENAMEASIDENTIFIER___: UICollectionViewDelegate {
-    // TODO: handle delegate functions
 }

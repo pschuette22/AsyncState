@@ -3,7 +3,11 @@
 import AsyncState
 import Foundation
 
-final class ___FILEBASENAMEASIDENTIFIER___: ViewModeling {
+protocol ___VARIABLE_productName:identifier___ViewModelProtocol: ViewModeling where State == ___VARIABLE_productName:identifier___State {
+
+}
+
+final class ___FILEBASENAMEASIDENTIFIER___: ___VARIABLE_productName:identifier___ViewModelProtocol {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
     private(set) var state: State {
