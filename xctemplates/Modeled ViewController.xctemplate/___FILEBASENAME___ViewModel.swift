@@ -3,7 +3,7 @@
 import AsyncState
 import Foundation
 
-final class ___FILEBASENAME___: ViewModeling {
+final class ___FILEBASENAMEASIDENTIFIER___: ViewModeling {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
     private(set) var state: State {
@@ -25,7 +25,7 @@ final class ___FILEBASENAME___: ViewModeling {
 
 // MARK: - ViewModeling
 
-extension ___FILEBASENAME___ {
+extension ___FILEBASENAMEASIDENTIFIER___ {
     @MainActor
     func currentState() -> State {
         state

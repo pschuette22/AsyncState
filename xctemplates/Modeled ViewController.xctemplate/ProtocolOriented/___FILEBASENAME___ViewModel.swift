@@ -7,7 +7,7 @@ protocol ___VARIABLE_productName:identifier___ViewModelProtocol: ViewModeling wh
 
 }
 
-final class ___FILEBASENAME___: ___VARIABLE_productName:identifier___ViewModelProtocol {
+final class ___FILEBASENAMEASIDENTIFIER___: ___VARIABLE_productName:identifier___ViewModelProtocol {
     // -- State Definition --
     typealias State = ___VARIABLE_productName:identifier___State
     private(set) var state: State {
@@ -29,7 +29,7 @@ final class ___FILEBASENAME___: ___VARIABLE_productName:identifier___ViewModelPr
 
 // MARK: - ViewModeling
 
-extension ___FILEBASENAME___ {
+extension ___FILEBASENAMEASIDENTIFIER___ {
     @MainActor
     func currentState() -> State {
         state

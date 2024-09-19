@@ -3,11 +3,11 @@
 import AsyncState
 import Foundation
 
-struct ___FILEBASENAME___: ViewState {
+struct ___FILEBASENAMEASIDENTIFIER___: ViewState {
     // TODO: State variables
     // var someVariable: Int
 }
 
-extension ___FILEBASENAME___ {
+extension ___FILEBASENAMEASIDENTIFIER___ {
     // TODO: Define transactions
 }

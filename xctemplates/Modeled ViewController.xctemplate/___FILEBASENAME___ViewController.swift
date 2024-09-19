@@ -5,7 +5,7 @@ import Foundation
 import UIKit
 
 @Modeled(___VARIABLE_productName: identifier___State.self, ___VARIABLE_productName: identifier___ViewModel.self)
-final class ___FILEBASENAME___: UIViewController {
+final class ___FILEBASENAMEASIDENTIFIER___: UIViewController {
     required init(viewModel: ViewModel) {
         self.viewModel = viewModel
 
@@ -20,7 +20,7 @@ final class ___FILEBASENAME___: UIViewController {
 
 // MARK: - Lifecycle
 
-extension ___FILEBASENAME___ {
+extension ___FILEBASENAMEASIDENTIFIER___ {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,7 +31,7 @@ extension ___FILEBASENAME___ {
 
 // MARK: - Subviews
 
-extension ___FILEBASENAME___ {
+extension ___FILEBASENAMEASIDENTIFIER___ {
     ///  Prepare subviews for state rendering
     private func setupSubviews() {
         // TODO: Add subviews
