@@ -1,4 +1,5 @@
-// TODO: Default header comment
+// ___FILEHEADER___
+
 import AsyncState
 import Foundation
 
@@ -24,7 +25,7 @@ final class ___FILEBASENAME___: ViewModeling {
 
 // MARK: - ViewModeling
 
-extension ___FILEBASENAMEASIDENTIFIER___ViewModel {
+extension ___FILEBASENAME___ {
     @MainActor
     func currentState() -> State {
         state

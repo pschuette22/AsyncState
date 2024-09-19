@@ -4,8 +4,8 @@ import AsyncState
 import Foundation
 import UIKit
 
-@Modeled(___VARIABLE_productName:identifier___State.self, ___VARIABLE_productName:identifier___ViewModel.self)
-final class ___FILEBASENAMEASIDENTIFIER___: UIViewController {
+@Modeled(___VARIABLE_productName:identifier___State.self, interface: ___VARIABLE_productName:identifier___ViewModelProtocol.self)
+final class ___FILEBASENAMEASIDENTIFIER___<ViewModel: ___VARIABLE_productName:identifier___ViewModelProtocol>: UIViewController, UICollectionViewDelegate {
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: collectionViewLayout
@@ -24,6 +24,9 @@ final class ___FILEBASENAMEASIDENTIFIER___: UIViewController {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - UICollectionViewDelegate
+    // TODO: fill in delegate methods
 }
 
 // MARK: - Lifecycle
@@ -70,8 +73,7 @@ extension ___FILEBASENAMEASIDENTIFIER___ {
     private typealias DataSource = UICollectionViewDiffableDataSource
     typealias Sections = State.Sections
     typealias Items = State.Items
-    
-    
+
     @MainActor
     private func makeLayout() -> UICollectionViewLayout {
         // https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout
@@ -94,10 +96,4 @@ extension ___FILEBASENAMEASIDENTIFIER___ {
             nil
         }
     }
-}
-
-// MARK: - UICollectionViewDelegate
-
-extension ___FILEBASENAMEASIDENTIFIER___: UICollectionViewDelegate {
-    // TODO: handle delegate functions
 }

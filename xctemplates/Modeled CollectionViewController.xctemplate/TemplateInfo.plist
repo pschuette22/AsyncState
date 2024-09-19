@@ -4,25 +4,34 @@
 <dict>
 	<key>SupportsSwiftPackage</key>
 	<true/>
+
 	<key>Kind</key>
 	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
+	
 	<key>Description</key>
 	<string>The scaffolding for an MVVM Collection</string>
+	
 	<key>Summary</key>
 	<string>Modeled Collection View Controller</string>
+	
 	<key>SortOrder</key>
 	<string>1</string>
+	
 	<key>Image</key>
 	<dict>
 		<key>FileTypeIcon</key>
 		<string>swift</string>
 	</dict>
+	
 	<key>DefaultCompletionName</key>
 	<string>MyFeature</string>
+	
 	<key>Platforms</key>
 	<array/>
+	
 	<key>Options</key>
 	<array>
+		<!-- Module Name -->
 		<dict>
 			<key>Identifier</key>
 			<string>productName</string>
@@ -36,6 +45,21 @@
 			<string>text</string>
 			<key>Default</key>
 			<string>MyFeature</string>
+		</dict>
+		<!-- Protocol Orientation -->
+		<dict>
+			<key>Identifier</key>
+			<string>ProtocolOriented</string>
+			<key>Required</key>
+			<true/>
+			<key>Name</key>
+			<string>Protocol Oriented</string>
+			<key>Description</key>
+			<string>Protocol orient the view model for testability</string>
+			<key>Type</key>
+			<string>checkbox</string>
+			<key>Default</key>
+			<true/>
 		</dict>
 	</array>
 </dict>
