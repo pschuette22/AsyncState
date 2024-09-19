@@ -184,7 +184,7 @@ extension ModeledViewControllerMacro: MemberMacro {
           stateObservingTask = Task { [weak self] in
               var stateIterator = stateStream.makeAsyncIterator()
               while let newState = await stateIterator.next() {
-                  await self?.render(newState)
+                  self?.render(newState)
               }
           }
       }
