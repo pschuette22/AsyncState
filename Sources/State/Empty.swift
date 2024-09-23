@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Empty: ObjectState {
-    public init() {}
-    
-    static var state = Empty()
+  public init() {}
+
+  static let state = Empty()
 }

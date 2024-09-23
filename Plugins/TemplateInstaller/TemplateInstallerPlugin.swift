@@ -3,8 +3,8 @@ import PackagePlugin
 
 @main
 public struct TemplateInstallerPlugin: BuildToolPlugin {
-  public init() { }
-  
+  public init() {}
+
   public func createBuildCommands(context: PluginContext, target _: Target) throws -> [Command] {
     let scriptPath = context.package.directory.appending("scripts").appending("install-xctemplates.sh")
 
@@ -13,7 +13,7 @@ public struct TemplateInstallerPlugin: BuildToolPlugin {
         displayName: "Update Async State Templates",
         executable: scriptPath,
         arguments: [],
-        environment: [:], 
+        environment: [:],
         outputFilesDirectory: context.package.directory
       ),
     ]

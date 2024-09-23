@@ -195,6 +195,10 @@ extension ModeledViewControllerMacro: MemberMacro {
           stateObservingTask?.cancel()
           stateObservingTask = nil
       }
+
+      func currentState() async -> State {
+        return await viewModel.currentState()
+      }
       """
     )
 

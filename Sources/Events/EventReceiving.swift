@@ -9,8 +9,28 @@ import Foundation
 
 public protocol EventReceiving: EffectHandling {
   associatedtype ReceivedEvent: Event
+  associatedtype State: ObjectState
 
-  func effects(of event: ReceivedEvent) -> [HandledEffect]
+  var eventReducer: any EventReducer<State, HandledEffect> { get }
+
+  func didReceive(_ event: ReceivedEvent) async
+}
+
+public extension EventReceiving where State == Empty {
+  func didReceive(_ event: ReceivedEvent) async {
+    var effects = [HandledEffect]()
+    eventReducer.reduce(event, for: Empty.state, into: &effects)
+    handle(all: effects)
+  }
+}
+
+public extension EventReceiving where Self: Stateful {
+  func didReceive(_ event: ReceivedEvent) async {
+    var effects = [HandledEffect]()
+    let currentState = await currentState()
+    eventReducer.reduce(event, for: currentState, into: &effects)
+    handle(all: effects)
+  }
 }
 
 public extension EventReceiving {
@@ -25,35 +45,10 @@ public extension EventReceiving {
     Task { [weak self, weak eventStreamer] in
       guard var iterator = eventStreamer?.eventStream.observe().makeAsyncIterator() else { return }
       while let event = await iterator.next() {
-        guard 
-          let mappedEvent = await eventMapping(event),
-          let effects = self?.effects(of: mappedEvent)
+        guard
+          let mappedEvent = await eventMapping(event)
         else { continue }
-        self?.handle(all: effects)
-      }
-    }
-  }
-}
-
-public extension EventReceiving where Self: EventStreaming {
-  func receiveEvents<ReceivedEvent>(
-    from eventStreamer: some EventStreaming<ReceivedEvent>,
-    rebroadcasting eventMapping: @escaping (ReceivedEvent) -> StreamedEvent?,
-    effectMapping: @escaping (ReceivedEvent) -> [HandledEffect]
-  ) {
-    Task { [weak self, weak eventStreamer] in
-      guard var iterator = eventStreamer?.eventStream.observe().makeAsyncIterator() else { return }
-      while let event = await iterator.next(), let self {
-        //
-        if let rebroadcasted = eventMapping(event) {
-          // This is a little funky. Should we keep the send function open?
-          (eventStream as? OpenAsyncBroadcast<StreamedEvent>)?.send(rebroadcasted)
-        }
-
-        let effects = effectMapping(event)
-        if !effects.isEmpty {
-          handle(all: effects)
-        }
+        await self?.didReceive(mappedEvent)
       }
     }
   }

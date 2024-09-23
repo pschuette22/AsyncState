@@ -9,4 +9,6 @@ import Foundation
 
 public protocol Stateful<State> {
   associatedtype State: ObjectState
+
+  func currentState() async -> State
 }
