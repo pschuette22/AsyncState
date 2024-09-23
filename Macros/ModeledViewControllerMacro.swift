@@ -196,8 +196,9 @@ extension ModeledViewControllerMacro: MemberMacro {
           stateObservingTask = nil
       }
 
+      /// Retrieve the current controller state
       func currentState() async -> State {
-        return await viewModel.currentState()
+          await viewModel.currentState()
       }
       """
     )

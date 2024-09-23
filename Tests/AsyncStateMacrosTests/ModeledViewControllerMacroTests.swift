@@ -60,6 +60,11 @@ final class ModeledViewControllerMacroTests: XCTestCase {
               stateObservingTask?.cancel()
               stateObservingTask = nil
           }
+
+          /// Retrieve the current controller state
+          func currentState() async -> State {
+              await viewModel.currentState()
+          }
       }
 
       extension SomeViewController: ModeledViewController {
@@ -114,6 +119,11 @@ final class ModeledViewControllerMacroTests: XCTestCase {
           private func stopObservingState() {
               stateObservingTask?.cancel()
               stateObservingTask = nil
+          }
+
+          /// Retrieve the current controller state
+          func currentState() async -> State {
+              await viewModel.currentState()
           }
       }
 
