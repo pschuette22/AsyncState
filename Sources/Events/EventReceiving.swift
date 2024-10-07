@@ -53,7 +53,7 @@ public extension EventReceiving {
         }
     }
   }
-    
+
     @discardableResult
     func receiveEvents<StreamedEvent: Event>(
       from eventStreamer: some EventStreaming<StreamedEvent>
