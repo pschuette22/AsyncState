@@ -35,7 +35,10 @@ public final class OpenAsyncBroadcast<Element: Sendable>: AsyncDispatcher, Async
 
   public func send(_ element: Element) {
     lock.lock()
-    guard !didFinish else { return }
+    guard !didFinish else {
+      lock.unlock()
+      return
+    }
     let continuations = continuations
     lock.unlock()
 
