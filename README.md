@@ -120,9 +120,10 @@ let observerTask = Task { [weak contactRepository] in
 ```
 
 ## Templates
-Install templates using the install script (likely `{project-path}/.build/checkouts/async-state/xctemplates/install-xctemplates.sh`)
-
-Run the script and templates will be installed locally. This may require an xcode restart.
+Install templates using the `async-state-templates` [CommandPlugin](https://developer.apple.com/documentation/packagedescription/target/plugincapability-swift.enum/command(intent:permissions:))
+```bash
+swift package --allow-writing-to-directory ~/Library/Developer/Xcode/Templates async-state-templates
+```
 
 Once installed, create a ModeledViewController using the latest template.
 
