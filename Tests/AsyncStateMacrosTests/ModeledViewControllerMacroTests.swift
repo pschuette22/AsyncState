@@ -4,7 +4,7 @@
 //
 //  Created by Peter Schuette on 6/23/24.
 //
-
+#if canImport(AsyncStateMacros)
 import AsyncState
 import AsyncStateMacros
 import Foundation
@@ -152,3 +152,5 @@ private final class SomeViewModel: ViewModelProtocol {
     state
   }
 }
+
+#endif
