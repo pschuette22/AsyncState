@@ -20,7 +20,6 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-docc-plugin", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2"))
-//    .package(url: "https://github.com/apple/swift-async-algorithms", .upToNextMajor(from: "1.0.0")),
   ],
   targets: [
     .macro(
@@ -45,7 +44,6 @@ let package = Package(
         "AsyncStateMacros",
         .product(name: "SwiftSyntax", package: "swift-syntax"),
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax")
-//        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
       ],
       path: "Sources"
     ),
@@ -53,7 +51,6 @@ let package = Package(
       name: "AsyncStateTests",
       dependencies: [
         "AsyncState"
-//        .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
       ],
       path: "Tests/AsyncStateTests"
     ),
