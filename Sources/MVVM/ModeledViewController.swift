@@ -18,7 +18,8 @@ import SwiftSyntaxMacros
   named(viewModel),
   named(stateObservingTask),
   named(startObservingState(renderImmediately:)),
-  named(stopObservingState)
+  named(stopObservingState),
+  named(currentState)
 )
 @attached(extension, conformances: ModeledViewController)
 public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type, _: ViewModel.Type) = #externalMacro(
@@ -34,7 +35,8 @@ public macro Modeled<State: ObjectState, ViewModel: ViewModeling>(_: State.Type,
   named(viewModel),
   named(stateObservingTask),
   named(startObservingState(renderImmediately:)),
-  named(stopObservingState)
+  named(stopObservingState),
+  named(currentState)
 )
 @attached(extension, conformances: ModeledViewController)
 public macro Modeled<State: ObjectState, ViewModel>(_: State.Type, interface: ViewModel) = #externalMacro(
@@ -51,15 +53,6 @@ public macro Modeled<State: ObjectState, ViewModel>(_: State.Type, interface: Vi
   public extension ModeledViewController where State: CollectionViewState {
     typealias Sections = State.Sections
     typealias Items = State.Items
-  }
-
-  extension ModeledViewController {
-    /// Retrieve the current state from the ViewModel and render
-    @MainActor
-    public func renderCurrentState() {
-      let currentState = viewModel.currentState()
-      render(currentState)
-    }
   }
 
 #else

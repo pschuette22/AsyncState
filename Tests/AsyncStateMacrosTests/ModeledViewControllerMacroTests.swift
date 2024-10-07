@@ -4,7 +4,7 @@
 //
 //  Created by Peter Schuette on 6/23/24.
 //
-
+#if canImport(AsyncStateMacros)
 import AsyncState
 import AsyncStateMacros
 import Foundation
@@ -41,15 +41,14 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                   return
               }
 
-              if renderImmediately {
-                  renderCurrentState()
-              }
-
               let stateStream = viewModel.stateStream.observe()
               stateObservingTask = Task { [weak self] in
+                  if renderImmediately {
+                      await self?.renderCurrentState()
+                  }
                   var stateIterator = stateStream.makeAsyncIterator()
-                  while let newState = await stateIterator.next() {
-                      await self?.render(newState)
+                  while let newState = await stateIterator.next(), let self {
+                      self.render(newState)
                   }
               }
           }
@@ -59,6 +58,11 @@ final class ModeledViewControllerMacroTests: XCTestCase {
           private func stopObservingState() {
               stateObservingTask?.cancel()
               stateObservingTask = nil
+          }
+
+          /// Retrieve the current controller state
+          func currentState() async -> State {
+              await viewModel.currentState()
           }
       }
 
@@ -96,15 +100,14 @@ final class ModeledViewControllerMacroTests: XCTestCase {
                   return
               }
 
-              if renderImmediately {
-                  renderCurrentState()
-              }
-
               let stateStream = viewModel.stateStream.observe()
               stateObservingTask = Task { [weak self] in
+                  if renderImmediately {
+                      await self?.renderCurrentState()
+                  }
                   var stateIterator = stateStream.makeAsyncIterator()
-                  while let newState = await stateIterator.next() {
-                      await self?.render(newState)
+                  while let newState = await stateIterator.next(), let self {
+                      self.render(newState)
                   }
               }
           }
@@ -114,6 +117,11 @@ final class ModeledViewControllerMacroTests: XCTestCase {
           private func stopObservingState() {
               stateObservingTask?.cancel()
               stateObservingTask = nil
+          }
+
+          /// Retrieve the current controller state
+          func currentState() async -> State {
+              await viewModel.currentState()
           }
       }
 
@@ -144,3 +152,5 @@ private final class SomeViewModel: ViewModelProtocol {
     state
   }
 }
+
+#endif

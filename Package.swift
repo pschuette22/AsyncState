@@ -11,15 +11,15 @@ let package = Package(
     .iOS(.v13),
     .tvOS(.v13),
     .watchOS(.v6),
-    .macCatalyst(.v13),
+    .macCatalyst(.v13)
   ],
   products: [
-    .plugin(name: "AsyncStateTemplateInstaller", targets: ["TemplateInstallerPlugin"]),
-    .library(name: "AsyncState", targets: ["AsyncState"]),
+    .plugin(name: "AsyncStateTemplates", targets: ["TemplateInstallerPlugin"]),
+    .library(name: "AsyncState", targets: ["AsyncState"])
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
-    .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2")),
+    .package(url: "https://github.com/apple/swift-docc-plugin", .upToNextMajor(from: "1.0.0")),
+    .package(url: "https://github.com/apple/swift-syntax", .upToNextMajor(from: "510.0.2"))
   ],
   targets: [
     .macro(
@@ -28,13 +28,17 @@ let package = Package(
         .product(name: "SwiftSyntax", package: "swift-syntax"),
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
-        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
       ],
       path: "Macros"
     ),
     .plugin(
       name: "TemplateInstallerPlugin",
-      capability: .buildTool(),
+      capability: .command(
+        intent: .custom(verb: "async-state-templates", description: "Update XCTemplates for async state"),
+        permissions: []
+      )
+      ,
       dependencies: [],
       path: "Plugins/TemplateInstaller"
     ),
@@ -43,14 +47,14 @@ let package = Package(
       dependencies: [
         "AsyncStateMacros",
         .product(name: "SwiftSyntax", package: "swift-syntax"),
-        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax")
       ],
       path: "Sources"
     ),
     .testTarget(
       name: "AsyncStateTests",
       dependencies: [
-        "AsyncState",
+        "AsyncState"
       ],
       path: "Tests/AsyncStateTests"
     ),
@@ -59,9 +63,9 @@ let package = Package(
       dependencies: [
         "AsyncState",
         "AsyncStateMacros",
-        .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax")
       ],
       path: "Tests/AsyncStateMacrosTests"
-    ),
+    )
   ]
 )
