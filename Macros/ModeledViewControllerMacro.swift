@@ -18,51 +18,50 @@ import SwiftSyntaxMacros
 /// into
 /// ```swift
 /// final class SomeViewController: UIViewController {
-///    typealias State = VCState
+///     private let someExistingInt: Int
 ///
-///    typealias ViewModel = VCModel
+///     typealias State = SomeState
 ///
-///    let viewModel: ViewModel
+///     typealias ViewModel = SomeViewModel
 ///
-///    private var stateObservingTask: Task<Void, Never>?
+///     private var stateObservingTask: Task<Void, Never>?
 ///
-/// }
+///     let viewModel: ViewModel
 ///
-/// extension SomeViewController {
 ///     /// Start an asynchronous Task which receives state changes and renders them
 ///     @MainActor
-///     private func startObservingState(renderFirst: Bool) {
-///         guard stateObservingTask?.isCancelled != false {
-///            // already observing
-///            return
+///     private func startObservingState(renderImmediately: Bool = false) {
+///         guard stateObservingTask?.isCancelled != false else {
+///             // already observing
+///             return
 ///         }
 ///
-///        let stateStream = viewModel.stateStream.observe()
-///        Task { [weak self] in
-///              if renderImmediately {
-///                  await self?.renderCurrentState()
-///              }
+///         let stateStream = viewModel.stateStream.observe()
+///         stateObservingTask = Task { [weak self] in
+///             if renderImmediately {
+///                 await self?.renderCurrentState()
+///             }
+///             var stateIterator = stateStream.makeAsyncIterator()
+///             while let newState = await stateIterator.next(), let self {
+///                 self.render(newState)
+///             }
+///         }
+///     }
 ///
-///              var stateIterator = stateStream.makeAsyncIterator()
-///              while let newState = await stateIterator.next() {
-///                  self?.render(newState)
-///              }
-///          }
-///        }
-///      }
-///
-///      /// Retrieve the current state from the ViewModel and render
-///      public func renderCurrentState() async {
-///          let currentState = await viewModel.currentState()
-///          await render(currentState)
-///      }
-///
-///      /// Renders the current state and observes
+///     /// Stop observing state changes
 ///     @MainActor
 ///     private func stopObservingState() {
 ///         stateObservingTask?.cancel()
 ///         stateObservingTask = nil
 ///     }
+///
+///     /// Retrieve the current controller state
+///     func currentState() async -> State {
+///         await viewModel.currentState()
+///     }
+/// }
+///
+/// extension SomeViewController: ModeledViewController {
 /// }
 /// ```
 public enum ModeledViewControllerMacro {
