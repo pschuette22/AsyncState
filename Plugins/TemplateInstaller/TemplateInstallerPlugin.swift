@@ -7,6 +7,7 @@ import PackagePlugin
     public init() { }
     public func performCommand(context: PackagePlugin.PluginContext, arguments: [String]) async throws {
         let scriptPath = context.package.directory.appending("scripts").appending("install-xctemplates.sh")
+        print(scriptPath.string)
         // TODO: run script
     }
 }
