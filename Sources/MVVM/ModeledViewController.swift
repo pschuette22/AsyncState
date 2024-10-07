@@ -55,15 +55,6 @@ public macro Modeled<State: ObjectState, ViewModel>(_: State.Type, interface: Vi
     typealias Items = State.Items
   }
 
-  extension ModeledViewController {
-    /// Retrieve the current state from the ViewModel and render
-    @MainActor
-    public func renderCurrentState() {
-      let currentState = viewModel.currentState()
-      render(currentState)
-    }
-  }
-
 #else
   @available(*, deprecated, message: "This is a test-only implementation. It is intended to be used with a UIViewController subclass")
   public protocol ModeledViewController<State, ViewModel>: AnyObject, StateRendering where ViewModel: ViewModeling, ViewModel.State == State {

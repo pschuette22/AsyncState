@@ -11,48 +11,44 @@ import Foundation
 public protocol EffectHandling<HandledEffect>: AnyObject {
   associatedtype HandledEffect: Effect
 
-  /// Handler declaration for a given effect. This is not called from a specific thread and syncronization is an obligation of the implementer
+  /// Handler declaration for a given effect
   /// - Parameter effect: ``Effect``
-  func handle(_ effect: HandledEffect)
+  func handle(_ effect: HandledEffect) async
 
   /// Handler declaration for a batch of effects received at the same time.
   /// - Parameter effects: ``Array`` of ``Effect``s which are handled by this object
-  func handle(all effects: [HandledEffect])
+  func handle(all effects: [HandledEffect]) async
 }
 
 public extension EffectHandling {
-  // Default implementation. Callers may implement this to handle batches of effects together
-  func handle(all effects: [HandledEffect]) {
+  // Default implementation. Callers may implement this to handle batches of effects simultaneously
+  func handle(all effects: [HandledEffect]) async {
     for effect in effects {
-      handle(effect)
+      await handle(effect)
     }
   }
 }
 
-extension EffectHandling where Self: EffectMapping {
+public extension EffectHandling where Self: EffectMapping {
   /// Handle some ``Effect`` if it can be mapped to a ``HandledEffect``
   /// If the ``Effect`` is not mapped, it will be ignored.
   /// - Parameter effect: Any ``Effect`` which may or may not be mapped
-  func handleIfNeeded<SomeEffect: Effect>(_ effect: SomeEffect) {
-    assert(
-      SomeEffect.self != HandledEffect.self,
-      "\(effect) does not need to be mapped, was this called in error?"
-    )
-
-    Task { [weak self] in
-      guard let mappedEffect = await self?.map(effect) else { return }
-
-      self?.handle(mappedEffect)
+  func handleIfNeeded(_ effect: any Effect) async {
+    #if !APPSTORE
+    if type(of: effect) == HandledEffect.self {
+        NSLog("Passed effect \(effect) is already \(type(of: HandledEffect.self)) and doesn't need to be mapped. Was this called in error?")
     }
+    #endif
+    guard let mappedEffect = await map(effect) else { return }
+
+    await handle(mappedEffect)
   }
 
   /// Handle a batch of ``Effect``s if they can be mapped. ``Effect``s which are not mapped will be ignored.
   /// - Parameter effects: ``Array`` of ``Effect``s which may or may not be mapped to a ``HandledEffect``
-  func handleIfNeeded(_ effects: [any Effect]) {
-    Task { [weak self] in
-      guard let mappedEffects = await self?.map(all: effects) else { return }
+  func handleIfNeeded(_ effects: [any Effect]) async {
+      let mappedEffects = await map(all: effects)
 
-      self?.handle(all: mappedEffects)
-    }
+      await handle(all: mappedEffects)
   }
 }

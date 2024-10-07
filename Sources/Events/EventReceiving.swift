@@ -20,7 +20,7 @@ public extension EventReceiving where State == Empty {
   func didReceive(_ event: ReceivedEvent) async {
     var effects = [HandledEffect]()
     eventReducer.reduce(event, for: Empty.state, into: &effects)
-    handle(all: effects)
+    await handle(all: effects)
   }
 }
 
@@ -29,7 +29,7 @@ public extension EventReceiving where Self: Stateful {
     var effects = [HandledEffect]()
     let currentState = await currentState()
     eventReducer.reduce(event, for: currentState, into: &effects)
-    handle(all: effects)
+    await handle(all: effects)
   }
 }
 
@@ -38,18 +38,26 @@ public extension EventReceiving {
   /// - Parameters:
   ///   - eventStreamer: Object streaming ``Event``s
   ///   - effectMapping: ``Effect`` these ``Event``s have
+  @discardableResult
   func receiveEvents<StreamedEvent: Event>(
     from eventStreamer: some EventStreaming<StreamedEvent>,
     as eventMapping: @escaping (StreamedEvent) async -> ReceivedEvent?
-  ) {
+  ) -> Task<Void, Never> {
     Task { [weak self, weak eventStreamer] in
       guard var iterator = eventStreamer?.eventStream.observe().makeAsyncIterator() else { return }
-      while let event = await iterator.next() {
-        guard
-          let mappedEvent = await eventMapping(event)
-        else { continue }
-        await self?.didReceive(mappedEvent)
-      }
+        while let event = await iterator.next(), !Task.isCancelled, let self {
+            guard
+                let mappedEvent = await eventMapping(event)
+            else { continue }
+            await self.didReceive(mappedEvent)
+        }
     }
   }
+    
+    @discardableResult
+    func receiveEvents<StreamedEvent: Event>(
+      from eventStreamer: some EventStreaming<StreamedEvent>
+    ) -> Task<Void, Never> where StreamedEvent == ReceivedEvent {
+      receiveEvents(from: eventStreamer, as: { $0 })
+    }
 }

@@ -7,15 +7,25 @@
 
 import Foundation
 
-public protocol AsyncBroadcast<Element> {
+public protocol AsyncBroadcast<Element>: Sendable {
   associatedtype Element: Sendable
 
   func observe() -> AsyncStream<Element>
   func observe(final: Element?) -> AsyncStream<Element>
 }
 
+public protocol AsyncDispatcher: AsyncBroadcast {
+    func send(_ element: Element)
+}
+
+extension AsyncDispatcher {
+    /// Downcast the dispatcher to hide sendability
+    /// - Returns: Dispatcher as an erased broadcast
+    public func erased() -> any AsyncBroadcast<Element> { self }
+}
+
 /// Broadcast asynchronously to a group of subscribers
-public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
+public final class OpenAsyncBroadcast<Element: Sendable>: AsyncDispatcher, AsyncBroadcast, @unchecked Sendable {
   private let lock = NSLock()
 
   public private(set) var didFinish: Bool = false
@@ -23,12 +33,9 @@ public final class OpenAsyncBroadcast<Element: Sendable>: AsyncBroadcast {
 
   public init() {}
 
-  public func erased() -> any AsyncBroadcast<Element> {
-    self
-  }
-
   public func send(_ element: Element) {
     lock.lock()
+    guard !didFinish else { return }
     let continuations = continuations
     lock.unlock()
 
