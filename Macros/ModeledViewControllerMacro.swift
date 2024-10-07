@@ -18,11 +18,10 @@ import SwiftSyntaxMacros
 /// into
 /// ```swift
 /// final class SomeViewController: UIViewController {
-///     private let someExistingInt: Int
 ///
-///     typealias State = SomeState
+///     typealias State = VCState
 ///
-///     typealias ViewModel = SomeViewModel
+///     typealias ViewModel = VCModel
 ///
 ///     private var stateObservingTask: Task<Void, Never>?
 ///
