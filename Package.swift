@@ -14,7 +14,7 @@ let package = Package(
     .macCatalyst(.v13)
   ],
   products: [
-    .plugin(name: "AsyncStateTemplateInstaller", targets: ["TemplateInstallerPlugin"]),
+    .plugin(name: "AsyncStateTemplates", targets: ["TemplateInstallerPlugin"]),
     .library(name: "AsyncState", targets: ["AsyncState"])
   ],
   dependencies: [
@@ -34,7 +34,11 @@ let package = Package(
     ),
     .plugin(
       name: "TemplateInstallerPlugin",
-      capability: .buildTool(),
+      capability: .command(
+        intent: .custom(verb: "async-state-templates", description: "Update XCTemplates for async state"),
+        permissions: []
+      )
+      ,
       dependencies: [],
       path: "Plugins/TemplateInstaller"
     ),
